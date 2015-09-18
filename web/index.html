@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en" ng-app="ubxtour">
+<head>
+  <meta charset="utf-8">
+  <title>UBX technical session</title>
+    <link rel="stylesheet" href="libs/jquery-ui/themes/smoothness/jquery-ui.css">
+    <script src="libs/jquery/dist/jquery.min.js"></script>
+    <script src="libs/jquery-ui/jquery-ui.js"></script>
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="apiCore.js"></script>
+    <link rel="stylesheet" href="app.css">
+  <script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+  </script>
+    <script>
+        $(function () {
+            $("#vtabs").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+            $("#vtabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        });
+    </script>
+    <style>
+        .ui-tabs-vertical {
+            width: 80em;
+        }
+
+        .ui-tabs-vertical .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 12em;
+        }
+
+        .ui-tabs-vertical .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+        }
+
+        .ui-tabs-vertical .ui-tabs-nav li a {
+            display: block;
+        }
+
+        .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+            padding-bottom: 0;
+            padding-right: .1em;
+            border-right-width: 1px;
+        }
+
+        .ui-tabs-vertical .ui-tabs-panel {
+        }
+    </style>
+</head>
+<body>
+ 
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Overview</a></li>
+    <li><a href="#tabs-2">Register endpoints</a></li>
+    <li><a href="#tabs-3">Register events</a></li>
+    <li><a href="#tabs-4">Send events</a></li>
+    <li><a href="#tabs-5">Monitor events</a></li>
+  </ul>
+  <div id="tabs-1">
+    <p>
+        IBM® UBX is a cloud-based service from IBM that provides a way to selectively
+exchange data between various IBM and third-party marketing automation and
+marketing analytics applications.</p>
+<p>UBX users can quickly integrate data from various IBM Commerce applications
+that they either own or that they can access as a service. They can also integrate
+data from selected independent marketing automation providers who collaborate
+with IBM to make their customer interactions available through UBX.
+As an IBM Business Partner that participates in UBX, you can expand your
+exposure to users who are actively looking to establish connections to new types of
+marketing data. Your value to these individuals is enhanced because they can now
+combine your marketing data with complementary data from IBM Commerce
+applications and other IBM Business Partner applications. UBX users can blend
+data contributions from multiple UBX endpoints to build a view of their customers
+that is richer, better targeted, and more timely than any single application can
+provide.</p
+<p>You can call several public APIs to access UBX programatically over a secure
+connection. You can also access UBX through a secure login that IBM assigns to the
+UBX account that it creates for your business organization.
+</p>
+      <p></p><br/>
+      <p>
+          During this session, you will learn to <br/>
+          <ol>
+            <li>Navigate the UBX Web Interface</li>
+      <li>Register a new endpoint</li>
+      <li>Register a custom event type</li>
+      <li>Subscribe an event to an endpoint</li>
+      <li>Send an event to the destination endpoint</li>
+        </ol>
+      </p>
+  </div>
+  <div id="tabs-2">
+    <p>
+      <div class="ubxTableContainer" ng-controller="RegisterEndpoints">
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <h2>Source endpoint</h2>
+                    <div class="ubxLabelStyle">URL</div>
+                    <input name="sourceEndpointUrl" class="textboxStyle" type="text" ng-modal="sourceEndpointUrl" value="{{sourceEndpointUrl}}"/>
+                </div>
+                <div class="ubxCellStyle">
+                    <h2>Destination endpoint</h2>
+                    <div class="ubxLabelStyle">URL</div>
+                    <input class="textboxStyle" type="text" ng-model="destinationEndpointUrl" value="{{destinationEndpointUrl}}"/>
+                </div>
+                <div class="ubxCellStyle">
+                    <br/><br/>
+                    <div class="ubxLabelStyle">URL to the endpoint API</div>
+                </div>
+            </div>
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Headers</div>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="sourceEndpointAuthorization" value="{{sourceEndpointAuthorization}}"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="sourceEndpointContentType" value="{{sourceEndpointContentType}}"/>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Headers</div>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="destinationEndpointAuthorization" value="{{destinationEndpointAuthorization}}"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="destinationEndpointContentType" value="{{destinationEndpointContentType}}"/>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">&nbsp;</div>
+                    <div class="ubxLabelStyle">This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
+                    <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Payload</div>
+                    <textarea name="sourceEndpointPayload" class="textareaStyle" ng-modal="sourceEndpointPayload">{{sourceEndpointPayload}}</textarea>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Payload</div>
+                    <textarea class="textareaStyle" ng-modal="destinationEndpointPayload">{{destinationEndpointPayload}}</textarea>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxTableContainer">
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">name</div><div class="ubxCellStyle">Name of the business application.</div>
+                        </div>
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">description</div><div class="ubxCellStyle">The UBX interface displays the
+                            description that you enter here.</div>
+                        </div>
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">providerName</div><div class="ubxCellStyle">Name of the endpoint provider.</div>
+                        </div>
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">url</div><div class="ubxCellStyle">A single global URL that UBX uses to
+                            communicate with the endpoint, for all
+                            endpoint types.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="ubxRowStyle">
+            <div class="ubxCellStyle">
+                <button class="ubxButton" ng-click="sendSourceEndpointRegistration()">Send</button>
+            </div>
+            <div class="ubxCellStyle">
+                <button class="ubxButton" ng-click="sendDestinationEndpointRegistration()">Send</button>
+            </div>
+        </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle" ng-modal="sourceEndpointResponse">{{sourceEndpointResponse}}</textarea>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle"  ng-modal="destinationEndpointResponse"></textarea>
+                </div>
+            </div>
+        </div>  
+    </p>
+  </div>
+  <div id="tabs-3">
+    
+    <p>
+         <div class="ubxTableContainer">
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">URL</div>
+                    <input class="textboxStyle" type="text"/>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">URL to the event type API</div>
+                </div>
+            </div>
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Headers</div>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">&nbsp;</div>
+                    <div class="ubxLabelStyle">This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
+                    <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Payload</div>
+                    <textarea class="textareaStyle"></textarea>
+                </div>
+                <div class="ubxCellStyle">
+                    <div class="ubxTableContainer">
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">name</div><div class="ubxCellStyle">Name of the business application.</div>
+                        </div>
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">description</div><div class="ubxCellStyle">The UBX interface displays the
+                            description that you enter here.</div>
+                        </div>
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">providerName</div><div class="ubxCellStyle">Name of the endpoint provider.</div>
+                        </div>
+                        <div class="ubxRowStyle">
+                            <div class="ubxCellStyle">url</div><div class="ubxCellStyle">A single global URL that UBX uses to
+                            communicate with the endpoint, for all
+                            endpoint types.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <button class="ubxButton">Send</button>
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle"></textarea>
+                </div>
+            </div>
+        </div>
+    </p>
+  </div>
+    <div id="tabs-4">
+    
+    <p>
+         <div class="ubxTableContainer">
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">URL</div>
+                    <input class="textboxStyle" type="text"/>
+                </div>
+            </div>
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Headers</div>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/>
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Payload</div>
+                    <textarea class="textareaStyle"></textarea>
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <button class="ubxButton">Send</button>
+                </div>
+            </div>
+
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle"></textarea>
+                </div>
+            </div>
+        </div>
+    </p>
+  </div>
+    <div id="tabs-5">
+    <p>
+        <div ng-controller="EndpointTabsCtrl" style="background-color: #f4f4f">
+        <div id="vtabs">
+            <ul style="position: fixed; top: 1em; right: 1em; width: 404px;">
+                <li ng-repeat="eData in endpointData">
+                    <a href="#vtabs-{{eData.id}}">{{eData.endpointURL}}</a>
+                </li>
+            </ul>
+            <div ng-repeat="eData in endpointData" style="word-wrap: break-word">
+                <div id="vtabs-{{eData.id}}">
+                    <h2>{{eData.endpointURL}}</h2>
+
+                    <p id="result{{eData.id}}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </p>
+    
+  </div>
+</div>
+ 
+ 
+</body>
+</html>
