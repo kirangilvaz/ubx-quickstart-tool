@@ -9,6 +9,7 @@
     <script src="libs/angular/angular.min.js"></script>
     <script src="app.js"></script>
     <script src="apiCore.js"></script>
+    <script src="dataStore.js"></script>
     <link rel="stylesheet" href="app.css">
   <script>
   $(function() {
@@ -63,6 +64,7 @@
     <li><a href="#tabs-3">Register events</a></li>
     <li><a href="#tabs-4">Send events</a></li>
     <li><a href="#tabs-5">Monitor events</a></li>
+    <li><a href="#tabs-6">Monitor audiences</a></li>
   </ul>
   <div id="tabs-1">
     <p>
@@ -102,14 +104,30 @@ UBX account that it creates for your business organization.
       <div class="ubxTableContainer" ng-controller="RegisterEndpoints">
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
+
                     <h2>Source endpoint</h2>
+                    <div class="ubxLabelStyle">Select endpoint type</div>
+                    <span>
+                        <input type="radio" name="radio" id="radio1" class="radio" checked ng-click="endpointTypeChanged(1)"/>
+                        <label for="radio1">Event source</label>
+                    </span>
+
+                    <span>
+                        <input type="radio" name="radio" id="radio2" class="radio" ng-click="endpointTypeChanged(2)"/>
+                        <label for="radio2">Event des</label>
+                    </span>
+
+                    <span>
+                        <input type="radio" name="radio" id="radio3" class="radio" ng-click="endpointTypeChanged(3)"/>
+                        <label for="radio3">Audience source</label>
+                    </span>
+
+                    <span>
+                        <input type="radio" name="radio" id="radio4" class="radio" ng-click="endpointTypeChanged(4)"/>
+                        <label for="radio4">Audience dest</label>
+                    </span>
                     <div class="ubxLabelStyle">URL</div>
-                    <input name="sourceEndpointUrl" class="textboxStyle" type="text" ng-modal="sourceEndpointUrl" value="{{sourceEndpointUrl}}"/>
-                </div>
-                <div class="ubxCellStyle">
-                    <h2>Destination endpoint</h2>
-                    <div class="ubxLabelStyle">URL</div>
-                    <input class="textboxStyle" type="text" ng-model="destinationEndpointUrl" value="{{destinationEndpointUrl}}"/>
+                    <input name="endpointUrl" class="textboxStyle" type="text" ng-modal="endpointUrl" value="{{endpointUrl}}" ng-disabled="true"/>
                 </div>
                 <div class="ubxCellStyle">
                     <br/><br/>
@@ -119,13 +137,8 @@ UBX account that it creates for your business organization.
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Headers</div>
-                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="sourceEndpointAuthorization" value="{{sourceEndpointAuthorization}}"/><br/>
-                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="sourceEndpointContentType" value="{{sourceEndpointContentType}}"/>
-                </div>
-                <div class="ubxCellStyle">
-                    <div class="ubxLabelStyle">Headers</div>
-                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="destinationEndpointAuthorization" value="{{destinationEndpointAuthorization}}"/><br/>
-                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="destinationEndpointContentType" value="{{destinationEndpointContentType}}"/>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="endpointAuthorizationModal" value="{{endpointAuthorization}}" ng-change="endpointAuthorizationChanged()"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="endpointContentType" value="{{endpointContentType}}" ng-disabled="true"/>
                 </div>
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">&nbsp;</div>
@@ -137,11 +150,7 @@ UBX account that it creates for your business organization.
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Payload</div>
-                    <textarea name="sourceEndpointPayload" class="textareaStyle" ng-modal="sourceEndpointPayload">{{sourceEndpointPayload}}</textarea>
-                </div>
-                <div class="ubxCellStyle">
-                    <div class="ubxLabelStyle">Payload</div>
-                    <textarea class="textareaStyle" ng-modal="destinationEndpointPayload">{{destinationEndpointPayload}}</textarea>
+                    <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal" ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea>
                 </div>
                 <div class="ubxCellStyle">
                     <div class="ubxTableContainer">
@@ -166,21 +175,14 @@ UBX account that it creates for your business organization.
 
         <div class="ubxRowStyle">
             <div class="ubxCellStyle">
-                <button class="ubxButton" ng-click="sendSourceEndpointRegistration()">Send</button>
-            </div>
-            <div class="ubxCellStyle">
-                <button class="ubxButton" ng-click="sendDestinationEndpointRegistration()">Send</button>
+                <button class="ubxButton" ng-click="sendendpointRegistration()">Send</button>
             </div>
         </div>
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Response</div>
-                    <textarea class="responseboxStyle" ng-modal="sourceEndpointResponse">{{sourceEndpointResponse}}</textarea>
-                </div>
-                <div class="ubxCellStyle">
-                    <div class="ubxLabelStyle">Response</div>
-                    <textarea class="responseboxStyle"  ng-modal="destinationEndpointResponse"></textarea>
+                    <textarea class="responseboxStyle" ng-modal="endpointResponse">{{endpointResponse}}</textarea>
                 </div>
             </div>
         </div>  
@@ -315,6 +317,36 @@ UBX account that it creates for your business organization.
     </p>
     
   </div>
+    <div id="tabs-6" ng-controller="AudienceMonitor">
+        <p>
+        <div style="background-color: #f4f4f" class="ubxTableContainer">
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
+                    <div style="position: relative; float: left; font-size: 200%;">Source audience</div><div style="position: relative; float: right;"><img src="images/reload.png" style="width: 50px; height: 50px;" ng-click="refreshSourceAudienceiFrame()"></div><br/>
+                </div>
+            <div class="ubxCellStyle">
+                <div style="position: relative; float: left; font-size: 200%;">Destination audience</div><div style="position: relative; float: right;"><img src="images/reload.png" style="width: 50px; height: 50px;" ng-click="refreshDestinationAudienceiFrame()"></div><br/>
+            </div>
+        </div>
+
+        <div class="ubxRowStyle">
+            <div class="ubxCellStyle" style="width: 500px">
+                <iframe id="sourceAudienceiFrame" ng-src="http://localhost/audiences/sourceAudience/" style="width: 500px; height: 400px;"></iframe>
+                <div id="btoggle1" style="cursor: pointer; cursor: hand;text-decoration: underline;">API 1</div>
+                <div id="contentp1" style="width: 500px; background-color: #F2F2F2">API content1</div>
+                <br/>
+                <div id="btoggle2" style="cursor: pointer; cursor: hand;text-decoration: underline;">API 2</div>
+                <div id="contentp2" style="width: 500px; background-color: #F2F2F2">API content2</div>
+
+            </div>
+            <div class="ubxCellStyle">
+                <iframe id="destinationAudienceiFrame" ng-src="http://localhost/audiences/destinationAudience/" style="width: 500px; height: 400px;"></iframe>
+            </div>
+        </div>
+    </div>
+        </p>
+
+    </div>
 </div>
  
  

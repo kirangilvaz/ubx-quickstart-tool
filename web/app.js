@@ -29,33 +29,6 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
           }
       ];
 
-      var json = {};
-
-      var sampleCall = function(loginData) {
-          var deferred = $q.defer();
-
-          // build config with headers
-          var config = {
-              headers: {
-                  'Authorization': "Basic " + btoa(loginData.j_username + ':' + loginData.j_password)
-              },
-              withCredentials: true
-          };
-
-          // submit login credentials
-          apiCore.get("user/signin", {}, config).then(function(response) { // SUCCESS
-
-
-
-
-              deferred.resolve(response.data);
-
-          }, function(response) { // ERROR
-              // return the error code
-              deferred.reject(response.status);
-          });
-          return deferred.promise;
-      };
 
       var eventHandlerObject = null;
       var initializeEventHandlers = function(){
@@ -71,37 +44,89 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
 }]);
 
 
-EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore',
-    function($scope, $q, apiCore) {
-        $scope.sourceEndpointUrl = "https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint";
-        $scope.sourceEndpointAuthorization = "Bearer 90cced80-1920-4e67-80c8-86168313f1c9";
-        $scope.sourceEndpointPayload = "{\n\n    \"name\":\"KGSourceEndpoint\",\n    \"description\":\"KGSourceEndpoint\",\n    \"providerName\":\"IBM\",\n  \"url\":\"http://169.45.67.107:5555/timedevent\",\n    \"endpointTypes\":{\n        \"event\":{\n            \"source\":{\n                \"enabled\":true\n            },\n            \"destination\":{\n                \"enabled\":false,\n                \"url\":\"http://169.45.67.107:5555/timedevent\",\n                \"destinationType\":\"push\"\n            }\n        }\n    },\n    \"marketingDatabasesDefinition\":{\n        \"marketingDatabases\":[\n            {\n                \"name\":\"marketingDB--name-QA1-000\",\n                \"identifiers\":[\n                    {\n                        \"name\":\"marketingDB--identifiers--name-QA1-000\",\n                        \"type\":\"marketingDB--identifiers--type-QA1-000\"\n                    }\n                ],\n                \"attributes\":[\n                    {\n                        \"name\":\"marketingDB--attributes--name-QA1-000\",\n                        \"type\":\"marketingDB--attributes--type-QA1-000\",\n                        \"isRequired\":false\n                    }\n                ]\n            }\n        ]\n    }\n\n} ";
-        $scope.sourceEndpointContentType = "application/JSON; charset=utf-8";
+EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStore',
+    function($scope, $q, apiCore, dataStore) {
+
+        //initialize source endpoint values
+        $scope.endpointUrl = dataStore.endpointUrl;
+
+        $scope.endpointAuthorization = dataStore.endpointAuthorization;
+        $scope.endpointAuthorizationModal = dataStore.endpointAuthorization;
+
+        $scope.endpointContentType = dataStore.endpointContentType;
+
+        $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
+
+        $scope.endpointTypeChanged = function(type){
+            switch(type){
+                case 1:
+                    $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
+                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    break;
+
+                case 2:
+                    $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
+                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+            }
+        };
+
+        $scope.endpointAuthorizationChanged = function(){
+            $scope.endpointAuthorization = $scope.endpointAuthorizationModal;
+        };
+
+        $scope.endpointPayloadChanged = function(){
+            $scope.endpointPayloadModal = document.getElementById('endpointPayload').value;
+        };
 
 
-        $scope.sendSourceEndpointRegistration = function(){
+
+        $scope.sendendpointRegistration = function(){
                 var deferred = $q.defer();
 
                 // build config with headers
                 var config = {
                     headers: {
-                        'Authorization': $scope.sourceEndpointAuthorization,
-                        'Content-Type' : $scope.sourceEndpointContentType
+                        'Authorization': $scope.endpointAuthorization,
+                        'Content-Type' : $scope.endpointContentType
                     },
                     withCredentials: true
                 };
 
                 // submit login credentials
-                apiCore.put($scope.sourceEndpointUrl, $scope.sourceEndpointPayload, config).then(function(response) { // SUCCESS
-                    $scope.sourceEndpointResponse = response.data;
+                apiCore.put($scope.endpointUrl, $scope.endpointPayloadModal, config).then(function(response) { // SUCCESS
+                    $scope.endpointResponse = response.data;
                     deferred.resolve(response.data);
 
                 }, function(response) { // ERROR
                     // return the error code
+                    $scope.endpointResponse = response.status+': '+response.data.message;
                     deferred.reject(response.status);
                 });
                 return deferred.promise;
         };
 
 
+    }]);
+
+
+EndpointTabs.controller('AudienceMonitor', ['$scope','$q','apiCore', 'dataStore',
+    function($scope, $q, apiCore, dataStore) {
+        $( "#contentp1" ).hide();
+        $( "#btoggle1" ).click(function() {
+            $( "#contentp1" ).toggle( "slow" );
+        });
+
+        $( "#contentp2" ).hide();
+        $( "#btoggle2" ).click(function() {
+            $( "#contentp2" ).toggle( "slow" );
+        });
+
+
+        $scope.refreshSourceAudienceiFrame = function(){
+            document.getElementById('sourceAudienceiFrame').src = "http://localhost/audiences/sourceAudience/";
+        };
+
+        $scope.refreshDestinationAudienceiFrame = function(){
+            document.getElementById('destinationAudienceiFrame').src = "http://localhost/audiences/destinationAudience/";
+        };
     }]);
