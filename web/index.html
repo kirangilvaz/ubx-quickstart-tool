@@ -184,11 +184,11 @@
 
         </div>
     </div>
-    <div id="tabs-3">
+    <div id="tabs-3"  ng-controller="RegisterEvent">
         <div class="tab-content">
             <div>
                 <div class="ubxLabelStyle"><b>URL to the event type API:</b></div>
-                <input name="eventURL" class="textboxStyle" type="text">
+                <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventTypeUrlModel">
             </div>
 
             <div style="margin-top: 30px;">
@@ -196,11 +196,11 @@
 
                 <div class="ubxLabelStyle">Authorization:</div>
                 <div class="ubxLabelStyle">This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
-                <input class="textboxStyle" type="text"/>
+                <input class="textboxStyle" type="text" ng-model="eventTypeAuthorizationModel"/>
 
                 <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type:</div>
                 <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
-                <input class="textboxStyle" type="text"/>
+                <input class="textboxStyle" type="text"  ng-model="eventTypeContentTypeModel"/>
 
             </div>
 
@@ -208,7 +208,7 @@
             <div style="margin-top: 30px; height: 400px;">
                 <div style="width: 40%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
-                    <textarea class="textareaStyle"></textarea>
+                    <textarea class="textareaStyle" ng-model="eventTypePayloadModel"></textarea>
                 </div>
                 <div style="display:inline-block; width: 50%; margin-top: 30px;" >
 
@@ -232,18 +232,18 @@
             </div>
 
             <div>
-                <button class="ubxButton" ng-click="sendendpointRegistration()">Send</button><br><br>
+                <button class="ubxButton"  ng-click="registerEvent()">Send</button><br><br>
                 <div class="ubxLabelStyle">Response</div>
-                <textarea class="responseboxStyle"></textarea>
+                <textarea class="responseboxStyle" ng-model="eventTypeResponseModel"></textarea>
             </div>
 
         </div>
     </div>
-    <div id="tabs-4">
+    <div id="tabs-4" ng-controller="SendEvent">
         <div class="tab-content">
             <div>
                 <div class="ubxLabelStyle"><b>URL to the event type API:</b></div>
-                <input name="eventURL" class="textboxStyle" type="text">
+                <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventUrlModel"/>
             </div>
 
             <div style="margin-top: 30px;">
@@ -251,11 +251,11 @@
 
                 <div class="ubxLabelStyle">Authorization:</div>
                 <div class="ubxLabelStyle">This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
-                <input class="textboxStyle" type="text"/>
+                <input class="textboxStyle" type="text" ng-model="eventAuthorizationModel"/>
 
                 <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type:</div>
                 <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
-                <input class="textboxStyle" type="text"/>
+                <input class="textboxStyle" type="text" ng-model="eventContentTypeModel" ng-disabled="true"/>
 
             </div>
 
@@ -263,7 +263,7 @@
             <div style="margin-top: 30px; height: 400px;">
                 <div style="width: 40%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
-                    <textarea class="textareaStyle"></textarea>
+                    <textarea class="textareaStyle"  ng-model="eventPayloadModel"></textarea>
                 </div>
                 <div style="display:inline-block; width: 50%; margin-top: 30px;" >
 
@@ -287,9 +287,9 @@
             </div>
 
             <div>
-                <button class="ubxButton" ng-click="sendendpointRegistration()">Send</button><br><br>
+                <button class="ubxButton" ng-click="sendEvent()">Send</button><br><br>
                 <div class="ubxLabelStyle">Response</div>
-                <textarea class="responseboxStyle"></textarea>
+                <textarea class="responseboxStyle" ng-model="eventResponseModel">{{eventResponseModel}}</textarea>
             </div>
 
         </div>
@@ -297,29 +297,6 @@
     <div id="tabs-5">
         <p>
         <div ng-controller="EndpointTabsCtrl" style="background-color: #f4f4f">
-
-
-            <div class="ubxLabelStyle"><b>Select endpoint type:</b></div>
-            <div class="endpoint-radio-option">
-                <input type="radio" name="radio" id="epradio1" class="radio" checked/>
-                <a href="#vtabs-{{eData.id}}">{{eData.endpointURL}}</a>
-
-            </div>
-
-            <div class="endpoint-radio-option">
-                <input type="radio" name="radio" id="epradio2" class="radio"/>
-                <label for="radio2">Event des</label>
-            </div>
-
-            <div class="endpoint-radio-option">
-                <input type="radio" name="radio" id="epradio3" class="radio"/>
-                <label for="radio3">Audience source</label>
-            </div>
-
-            <div class="endpoint-radio-option">
-                <input type="radio" name="radio" id="epradio4" class="radio"/>
-                <label for="radio4">Audience dest</label>
-            </div>
 
             <ul>
                 <li ng-repeat="eData in endpointData">
@@ -353,7 +330,7 @@
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle" style="width: 500px">
-                    <iframe id="sourceAudienceiFrame" ng-src="http://localhost/audiences/sourceAudience/" style="width: 500px; height: 400px;"></iframe>
+                    <iframe id="sourceAudienceiFrame" ng-src="http://169.45.67.107/audience/producer/" style="width: 500px; height: 400px;"></iframe>
 
                     <br>
                     <br>
@@ -365,7 +342,7 @@
 
                 </div>
                 <div class="ubxCellStyle">
-                    <iframe id="destinationAudienceiFrame" ng-src="http://localhost/audiences/destinationAudience/" style="width: 500px; height: 400px;"></iframe>
+                    <iframe id="destinationAudienceiFrame" ng-src="http://169.45.67.107/audience/consumer/" style="width: 500px; height: 400px;"></iframe>
                 </div>
             </div>
         </div>
