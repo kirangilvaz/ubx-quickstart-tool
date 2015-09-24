@@ -188,14 +188,14 @@ UBX account that it creates for your business organization.
         </div>  
     </p>
   </div>
-  <div id="tabs-3">
+  <div id="tabs-3" ng-controller="RegisterEvent">
     
     <p>
          <div class="ubxTableContainer">
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">URL</div>
-                    <input class="textboxStyle" type="text"/>
+                    <input class="textboxStyle" type="text" ng-model="eventTypeUrlModel"/>
                 </div>
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">URL to the event type API</div>
@@ -204,8 +204,8 @@ UBX account that it creates for your business organization.
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Headers</div>
-                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/><br/>
-                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="eventTypeAuthorizationModel"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="eventTypeContentTypeModel" ng-disabled="true"/>
                 </div>
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">&nbsp;</div>
@@ -217,7 +217,7 @@ UBX account that it creates for your business organization.
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Payload</div>
-                    <textarea class="textareaStyle"></textarea>
+                    <textarea class="textareaStyle" ng-model="eventTypePayloadModel"></textarea>
                 </div>
                 <div class="ubxCellStyle">
                     <div class="ubxTableContainer">
@@ -243,54 +243,54 @@ UBX account that it creates for your business organization.
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
-                    <button class="ubxButton">Send</button>
+                    <button class="ubxButton" ng-click="registerEvent()">Send</button>
                 </div>
             </div>
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Response</div>
-                    <textarea class="responseboxStyle"></textarea>
+                    <textarea class="responseboxStyle" ng-model="eventTypeResponseModel"></textarea>
                 </div>
             </div>
         </div>
     </p>
   </div>
-    <div id="tabs-4">
+    <div id="tabs-4" ng-controller="SendEvent">
     
     <p>
          <div class="ubxTableContainer">
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">URL</div>
-                    <input class="textboxStyle" type="text"/>
+                    <input class="textboxStyle" type="text" ng-model="eventUrlModel"/>
                 </div>
             </div>
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Headers</div>
-                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/><br/>
-                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text"/>
+                    Authorization&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="eventAuthorizationModel"/><br/>
+                    Content-Type &nbsp;&nbsp; :&nbsp;&nbsp; <input class="textboxStyle" type="text" ng-model="eventContentTypeModel" ng-disabled="true"/>
                 </div>
             </div>
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Payload</div>
-                    <textarea class="textareaStyle"></textarea>
+                    <textarea class="textareaStyle" ng-model="eventPayloadModel"></textarea>
                 </div>
             </div>
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
-                    <button class="ubxButton">Send</button>
+                    <button class="ubxButton" ng-click="sendEvent()">Send</button>
                 </div>
             </div>
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
                     <div class="ubxLabelStyle">Response</div>
-                    <textarea class="responseboxStyle"></textarea>
+                    <textarea class="responseboxStyle" ng-model="eventResponseModel">{{eventResponseModel}}</textarea>
                 </div>
             </div>
         </div>
@@ -331,7 +331,7 @@ UBX account that it creates for your business organization.
 
         <div class="ubxRowStyle">
             <div class="ubxCellStyle" style="width: 500px">
-                <iframe id="sourceAudienceiFrame" ng-src="http://localhost/audiences/sourceAudience/" style="width: 500px; height: 400px;"></iframe>
+                <iframe id="sourceAudienceiFrame" ng-src="http://169.45.67.107/audience/producer/" style="width: 500px; height: 400px;"></iframe>
                 <div id="btoggle1" style="cursor: pointer; cursor: hand;text-decoration: underline;">API 1</div>
                 <div id="contentp1" style="width: 500px; background-color: #F2F2F2">API content1</div>
                 <br/>
@@ -340,7 +340,7 @@ UBX account that it creates for your business organization.
 
             </div>
             <div class="ubxCellStyle">
-                <iframe id="destinationAudienceiFrame" ng-src="http://localhost/audiences/destinationAudience/" style="width: 500px; height: 400px;"></iframe>
+                <iframe id="destinationAudienceiFrame" ng-src="http://169.45.67.107/audience/consumer/" style="width: 500px; height: 400px;"></iframe>
             </div>
         </div>
     </div>
