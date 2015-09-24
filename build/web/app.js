@@ -13,17 +13,17 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
       };
 
       $scope.endpointData = [{
-          endpointURL : "http://kirangilvaz.com/endpoint1",
+          endpointURL : "http://ubxdemo.ibm.com/endpoint1",
           endpointFileName : "ubx-events.txt",
           id : "1"
             },
           {
-              endpointURL : "http://kirangilvaz.com/endpoint2",
+              endpointURL : "http://ubxdemo.ibm.com/endpoint2",
               endpointFileName : "ubx-events1.txt",
               id : "2"
           },
           {
-              endpointURL : "http://kgdev.x1.ubx.com:5555/timedevent",
+              endpointURL : "http://169.45.67.107:5555/timedevent",
               endpointFileName : "event.txt",
               id : "3"
           }
@@ -103,6 +103,116 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStor
                     deferred.reject(response.status);
                 });
                 return deferred.promise;
+        };
+
+
+    }]);
+
+EndpointTabs.controller('RegisterEvent', ['$scope','$q','apiCore', 'dataStore',
+    function($scope, $q, apiCore, dataStore) {
+
+        //initialize event values
+        $scope.eventTypeUrlModel = dataStore.eventTypeUrl;
+        $scope.eventTypeAuthorizationModel = dataStore.endpointAuthorization;
+        $scope.eventTypeContentTypeModel = dataStore.endpointContentType;
+        $scope.eventTypePayloadModel = dataStore.eventTypePayload;
+
+        //$scope.eventPayloadChanged = function(){
+        //    switch(type){
+        //        case 1:
+        //            $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
+        //            document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+        //            break;
+        //
+        //        case 2:
+        //            $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
+        //            document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+        //    }
+        //};
+
+        $scope.registerEvent = function(){
+            var deferred = $q.defer();
+
+            // build config with headers
+            var config = {
+                headers: {
+                    'Authorization': $scope.eventTypeAuthorizationModel,
+                    'Content-Type' : $scope.eventTypeContentTypeModel
+                },
+                withCredentials: true
+            };
+
+            // submit login credentials
+            apiCore.post($scope.eventTypeUrlModel, $scope.eventTypePayloadModel, config).then(function(response) { // SUCCESS
+                $scope.eventTypeResponseModel = response.data;
+                deferred.resolve(response.data);
+
+            }, function(response) { // ERROR
+                // return the error code
+                $scope.eventTypeResponseModel = response.status+': '+response.data.message;
+                deferred.reject(response.status);
+            });
+            return deferred.promise;
+        };
+
+
+    }]);
+
+EndpointTabs.controller('SendEvent', ['$scope','$q','apiCore', 'dataStore',
+    function($scope, $q, apiCore, dataStore) {
+
+        //initialize event values
+        $scope.eventUrlModel = dataStore.eventUrl;
+        $scope.eventAuthorizationModel = dataStore.endpointAuthorization;
+        $scope.eventContentTypeModel = dataStore.endpointContentType;
+        $scope.eventPayloadModel = dataStore.sampleEventPayload;
+
+        //$scope.eventPayloadChanged = function(){
+        //    switch(type){
+        //        case 1:
+        //            $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
+        //            document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+        //            break;
+        //
+        //        case 2:
+        //            $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
+        //            document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+        //    }
+        //};
+
+        $scope.endpointAuthorizationChanged = function(){
+            $scope.endpointAuthorization = $scope.endpointAuthorizationModal;
+        };
+
+        $scope.endpointPayloadChanged = function(){
+            $scope.endpointPayloadModal = document.getElementById('endpointPayload').value;
+        };
+
+
+
+        $scope.sendEvent = function(){
+            var deferred = $q.defer();
+
+            // build config with headers
+            var config = {
+                headers: {
+                    'Authorization': $scope.eventAuthorizationModel,
+                    'Content-Type' : $scope.eventContentTypeModel
+                },
+                withCredentials: true
+            };
+
+            // submit login credentials
+            apiCore.post($scope.eventUrlModel, $scope.eventPayloadModel, config).then(function(response) { // SUCCESS
+                $scope.eventResponseModel = response.data;
+                deferred.resolve(response.data);
+
+            }, function(response) { // ERROR
+                // return the error code
+                $scope.eventResponseModel = response.status+': '+response.data.message;
+                deferred.reject(response.status);
+            });
+            return deferred.promise;
         };
 
 
