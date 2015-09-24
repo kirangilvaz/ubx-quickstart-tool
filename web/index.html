@@ -58,7 +58,7 @@
 </head>
 <body>
 
-<div id="main-header">UBX Quick Start Tool</div>
+<div id="main-header">IBM - UBX Quick Start Tool</div>
 
 <div id="tabs">
     <ul>
@@ -67,7 +67,8 @@
         <li><a href="#tabs-3">Register events</a></li>
         <li><a href="#tabs-4">Send events</a></li>
         <li><a href="#tabs-5">Monitor events</a></li>
-        <li><a href="#tabs-6">Monitor audiences</a></li>
+        <li><a href="#tabs-6">Audience APIs</a></li>
+        <li><a href="#tabs-7">Monitor audiences</a></li>
     </ul>
     <div id="tabs-1">
         <div class="tab-content">
@@ -314,7 +315,35 @@
         </p>
 
     </div>
-    <div id="tabs-6" ng-controller="AudienceMonitor">
+    <div id="tabs-6">
+        <div class="tab-content" ng-controller="SegmentsAPI">
+            <div>
+                <div class="ubxLabelStyle"><b>URL:</b></div>
+                <input name="eventURL" class="textboxStyle" type="text"  ng-model="getSegmentsUrlModel"/>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <div class="ubxLabelStyle"><b>Headers</b></div>
+
+                <div class="ubxLabelStyle">Authorization:</div>
+                <input class="textboxStyle" type="text" ng-model="getSegmentsAuthorizationModel"/>
+
+                <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type:</div>
+                <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
+                <input class="textboxStyle" type="text" ng-model="getSegmentsContentTypeModel" ng-disabled="true"/>
+
+            </div>
+
+
+            <div>
+                <button class="ubxButton" ng-click="getSegments()">Send</button><br><br>
+                <div class="ubxLabelStyle">Response</div>
+                <textarea class="responseboxStyle" ng-model="getSegmentsResponseModel">{{getSegmentsResponseModel}}</textarea>
+            </div>
+
+        </div>
+    </div>
+    <div id="tabs-7" ng-controller="AudienceMonitor">
         <p>
         <div class="ubxTableContainer">
             <div class="ubxRowStyle">

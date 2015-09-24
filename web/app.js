@@ -218,6 +218,41 @@ EndpointTabs.controller('SendEvent', ['$scope','$q','apiCore', 'dataStore',
 
     }]);
 
+EndpointTabs.controller('SegmentsAPI', ['$scope','$q','apiCore', 'dataStore',
+    function($scope, $q, apiCore, dataStore) {
+
+        //initialize event values
+        $scope.getSegmentsUrlModel = dataStore.getSegmentsUrlModel;
+        $scope.getSegmentsAuthorizationModel = dataStore.endpointAuthorization;
+        $scope.getSegmentsContentTypeModel = dataStore.endpointContentType;
+
+        $scope.sendEvent = function(){
+            var deferred = $q.defer();
+
+            // build config with headers
+            var config = {
+                headers: {
+                    'Authorization': $scope.getSegmentsAuthorizationModel,
+                    'Content-Type' : $scope.getSegmentsContentTypeModel
+                },
+                withCredentials: true
+            };
+
+            // submit login credentials
+            apiCore.get($scope.getSegmentsUrlModel, {}, config).then(function(response) { // SUCCESS
+                $scope.eventResponseModel = response.data;
+                deferred.resolve(response.data);
+
+            }, function(response) { // ERROR
+                // return the error code
+                $scope.eventResponseModel = response.status+': '+response.data.message;
+                deferred.reject(response.status);
+            });
+            return deferred.promise;
+        };
+
+
+    }]);
 
 EndpointTabs.controller('AudienceMonitor', ['$scope','$q','apiCore', 'dataStore',
     function($scope, $q, apiCore, dataStore) {

@@ -12,7 +12,8 @@ EndpointTabs.factory('dataStore', [
             sampleEventPayload : "{\r\n\r\n    \"provider\":\"IBM\",\r\n    \"channel\":\"Natural Search Activity\",\r\n    \"identifiers\":[\r\n        {\r\n            \"name\":\"Email\",\r\n            \"value\":\"ibmtest@ibm.com\"\r\n        },\r\n        {\r\n            \"name\":\"Cookie\",\r\n            \"value\":\"35139876006927234532803\"\r\n        }\r\n    ],\r\n    \"events\":[\r\n        {\r\n            \"code\" : \"eventcode\",\r\n            \"timestamp\":\"2015-07-29T09:36:53-0400\",\r\n            \"attributes\":[\r\n                {\r\n                    \"name\":\"Email\",\r\n                    \"value\":\"ibm@ibm.com\",\r\n                    \"type\":\"string\"\r\n                },\r\n                {\r\n                    \"name\":\"MobileId\",\r\n                    \"value\":\"12345\",\r\n                    \"type\":\"numeric\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n\r\n} \r\n",
             eventUrl : "https://api-pilot.ubx.ibmmarketingcloud.com/v1/event",
             eventTypeUrl : "https://api-pilot.ubx.ibmmarketingcloud.com/v1/eventtype",
-            eventTypePayload : "{\r\n    \"code\":\"eventcode\",\r\n    \"name\":\"MarketingEvent\",\r\n    \"description\":\"MarketingEvent\"\r\n} "
+            eventTypePayload : "{\r\n    \"code\":\"eventcode\",\r\n    \"name\":\"MarketingEvent\",\r\n    \"description\":\"MarketingEvent\"\r\n} ",
+            getSegmentsUrlModel : "http://169.45.67.107:8096/SegmentEndpoint/v1/segments"
         };
         return dataStore;
     }]);
