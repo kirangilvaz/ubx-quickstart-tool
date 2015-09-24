@@ -1,3 +1,82 @@
+* {
+    box-sizing: border-box;
+}
+
+
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    color: #5A5A5A;
+    margin: 0;
+    height: 100%;
+}
+
+#main-header {
+    height: 200px;
+    text-align: center;
+    padding-top: 80px;
+    font-size: 40px;
+    font-weight: lighter;
+}
+
+#tabs {
+    border: 0;
+    padding:0;
+    height: 1100px;
+}
+
+.tab-content {
+    padding-top: 25px;
+    padding-left: 23px;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    background-color: #efefef;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active  > a {
+    -webkit-box-shadow: 0px -2px 0px 0px #00a6a0;
+    -moz-box-shadow: 0px -2px 0px 0px #00a6a0;
+    box-shadow: 0px -2px 0px 0px #00a6a0;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+
+}
+
+.ui-tabs .ui-tabs-panel {
+    background-color: #efefef;
+    height: 100%;
+}
+
+.ui-tabs .ui-tabs-nav {
+    padding-left: 25px;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    background-image: none;
+    background-color: white;
+}
+
+
+
+.ui-corner-top {
+    border-radius: 0;
+}
+
+.ui-widget-header {
+    background: none;
+    background-color: white;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #aaaaaa;
+}
+
+.ui-widget-content, .ui-tabs {
+    /*color: black;*/
+}
+
 .ubxTableContainer{
     display: table;
     padding: 20px;
@@ -5,9 +84,10 @@
 }
 
 .ubxLabelStyle{
-    color: #5a5a5a;
+    /*color: #5a5a5a;*/
+    color: black;
     font-size: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .ubxRowStyle {
@@ -21,23 +101,26 @@
 }
 
 
+.endpoint-radio-option {
+    display: inline-block;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
 .textboxStyle {
-    background-image:url(http://www.cssportal.com/form-elements/images/form_bg.jpg);
-    background-repeat:repeat-x;
     border:1px solid #d1c7ac;
     width: 230px;
     color:#333333;
     padding:3px;
     margin-right:4px;
     margin-bottom:8px;
-    font-family:tahoma, arial, sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .responseboxStyle {
-    background-image:url(http://www.cssportal.com/form-elements/images/form_bg.jpg);
-    background-repeat:repeat-x;
+
     border:1px solid #d1c7ac;
-    width: 410px;
+    width: 450px;
     height: 50px;
     color:#333333;
     padding:3px;
@@ -47,10 +130,9 @@
 }
 
 .textareaStyle {
-    background-image:url(http://www.cssportal.com/form-elements/images/form_bg.jpg);
     background-repeat:repeat-x;
     border:1px solid #d1c7ac;
-    width: 410px;
+    width: 450px;
     height: 350px;
     color:#333333;
     padding:3px;
@@ -101,19 +183,27 @@
 }
 
 .ui-widget {
-    font-family: Verdana,Arial,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: inherit;
 }
 
 label {
     width: 200px;
     border-radius: 3px;
-    border: 1px solid #D1D3D4
+    border: 1px solid #D1D3D4;
+    background-color: white;
 }
 
+.ui-widget input {
+    width: 450px;
+}
 /* hide input */
 input.radio:empty {
-    margin-left: -999px;
+    margin-left: -1025px;
+}
+
+input.radio:checked ~ label:before {
+    color: white;
 }
 
 /* style label */
@@ -161,10 +251,14 @@ input.radio:checked ~ label:before {
 }
 
 input.radio:checked ~ label {
-    color: #777;
+    background-color: white;
+    color: black;
 }
 
 /* radio focus */
 input.radio:focus ~ label:before {
     box-shadow: 0 0 0 3px #999;
+}
+
+.reloadthing:hover {
 }
