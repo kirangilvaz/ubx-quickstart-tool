@@ -13,11 +13,12 @@ body {
 }
 
 #main-header {
-    height: 110px;
     text-align: center;
-    padding-top: 40px;
-    font-size: 40px;
-    font-weight: lighter;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
 }
 
 #tabs {
@@ -27,7 +28,8 @@ body {
 }
 
 .tab-content {
-    padding-left: 23px;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
@@ -165,7 +167,7 @@ body {
 .responseboxStyle {
 
     border:1px solid #d1c7ac;
-    width: 410px;
+    width: 600px;
     height: 50px;
     color:#333333;
     padding:3px;
@@ -177,8 +179,8 @@ body {
 .textareaStyle {
     background-repeat:repeat-x;
     border:1px solid #d1c7ac;
-    width: 450px;
-    height: 350px;
+    width: 1000px;
+    height: 600px;
     color:#333333;
     padding:3px;
     margin-right:4px;
@@ -239,7 +241,7 @@ label {
 }
 
 .ui-widget input {
-    width: 450px;
+    width: 600px;
 }
 /* hide input */
 input.radio:empty {

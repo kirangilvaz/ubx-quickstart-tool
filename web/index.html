@@ -64,7 +64,7 @@
     <ul>
         <li><a href="#tabs-1">Overview</a></li>
         <li><a href="#tabs-2">Register endpoints</a></li>
-        <li><a href="#tabs-3">Register events</a></li>
+        <li><a href="#tabs-3">Register event types</a></li>
         <li><a href="#tabs-4">Send events</a></li>
         <li><a href="#tabs-5">Monitor events</a></li>
         <li><a href="#tabs-6">Audience APIs</a></li>
@@ -102,7 +102,9 @@
                 <li>Subscribe an event to an endpoint</li>
                 <li>Send an event to the destination endpoint</li>
             </ol>
-            </p>
+            </p><div style="align: center">
+            <img src="images/UBX-Overview.png" style="display: block; margin-left: auto; margin-right: auto; border: solid;border-color: grey;"/>
+            </div>
         </div>
     </div>
     <div id="tabs-2">
@@ -110,76 +112,72 @@
         <div class="tab-content" ng-controller="RegisterEndpoints">
 
             <div>
-                <div class="ubxLabelStyle"><b>Select endpoint type:</b></div>
-                <div class="endpoint-radio-option">
+                <span class="ubxLabelStyle"><b>Select endpoint type:</b></span>&nbsp;&nbsp;&nbsp;
+                <span class="endpoint-radio-option">
                     <input type="radio" name="radio" id="radio1" class="radio" checked ng-click="endpointTypeChanged(1)"/>
                     <label for="radio1">Event source</label>
-                </div>
+                </span>
 
-                <div class="endpoint-radio-option">
+                <span class="endpoint-radio-option">
                     <input type="radio" name="radio" id="radio2" class="radio" ng-click="endpointTypeChanged(2)"/>
                     <label for="radio2">Event destination</label>
-                </div>
+                </span>
 
-                <div class="endpoint-radio-option">
+                <span class="endpoint-radio-option">
                     <input type="radio" name="radio" id="radio3" class="radio" ng-click="endpointTypeChanged(3)"/>
                     <label for="radio3">Audience source</label>
-                </div>
+                </span>
 
-                <div class="endpoint-radio-option">
+                <span class="endpoint-radio-option">
                     <input type="radio" name="radio" id="radio4" class="radio" ng-click="endpointTypeChanged(4)"/>
                     <label for="radio4">Audience destination</label>
-                </div>
+                </span>
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 10px;">
                 <div class="ubxLabelStyle"><b>URL to the endpoint API:</b></div>
                 <input name="endpointUrl" class="textboxStyle" type="text" ng-modal="endpointUrl" value="https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint" ng-disabled="true" disabled="disabled">
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 10px;">
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
-                <div class="ubxLabelStyle">Authorization:</div>
-                <div class="ubxLabelStyle">This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
+                <div class="ubxLabelStyle">Authorization: This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
                 <input class="textboxStyle" type="text" ng-model="endpointAuthorizationModal" value="{{endpointAuthorization}}" ng-change="endpointAuthorizationChanged()"/>
 
-                <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type:</div>
-                <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
+                <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type: Content-Type must be set to application/JSON; charset=utf-8</div>
                 <input class="textboxStyle" type="text" ng-model="endpointContentType" value="{{endpointContentType}}" ng-disabled="true"/>
 
             </div>
 
-            <div style="margin-top: 30px; height: 400px;">
-                <div style="width: 40%; display: inline-block; float: left">
+            <div style="margin-top: 10px; height: 400px;">
+                <div style="width: 60%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
-                    <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal" ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea>
+                    <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal" ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea><br/><br/>
+                    <button class="ubxButton" ng-click="sendendpointRegistration()">Send</button><br/><br/>
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle" ng-modal="endpointResponse">{{endpointResponse}}</textarea>
                 </div>
-                <div style="display:inline-block; width: 50%; margin-top: 30px;" >
+                <div style="display:inline-block; width: 35%; margin-top: 10px;padding-left: 30px;" >
+                    <p>
+                    <h5>PUT /v1/endpoint</h5>
+                    Register an endpoint with UBX.<br/><br/>
 
-                    <div class="ubxRowStyle" style="margin-top: 30px;">
-                        <div class="ubxCellStyle">name</div><div class="ubxCellStyle">Name of the business application.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">description</div><div class="ubxCellStyle">The UBX interface displays the
-                        description that you enter here.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">providerName</div><div class="ubxCellStyle">Name of the endpoint provider.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">url</div><div class="ubxCellStyle">A single global URL that UBX uses to
-                        communicate with the endpoint, for all
-                        endpoint types.</div>
-                    </div>
+                    <h5>Endpoint registration overview</h5>
+                    A UBX user must initiate each endpoint registration from the UBX user interface. The registration requires a series of actions by the UBX user and the endpoint provider.<br/><br/>
 
+                    1. In UBX, a user requests an endpoint authentication key. UBX generates a unique key.<br/><br/>
+
+                    2. The user contacts the endpoint provider to submit the authentication key. The provider determines how the user submits the key.<br/><br/>
+
+                    3. The endpoint provider calls the UBX v1/endpoint API. The authentication key must be in the header of the API
+                    call as the authorization bearer. If the endpoint requires an authenticated connection, the endpoint provider must also call the v1/endpointattributes API to provide the necessary connection and login information.<br/><br/>
+
+                    4. UBX recognizes the user-provided authentication key as authorization for the endpoint to share data between applications on behalf of the UBX user account.<br/><br/>
+
+                    5. Upon successful registration, the endpoint appears as an option in the interface that UBX displays to the user account.<br/><br/>
+                    </p>
                 </div>
-            </div>
-
-            <div>
-                <button class="ubxButton" ng-click="sendendpointRegistration()">Send</button><br><br>
-                <div class="ubxLabelStyle">Response</div>
-                <textarea class="responseboxStyle" ng-modal="endpointResponse">{{endpointResponse}}</textarea>
             </div>
 
 
@@ -209,33 +207,11 @@
             <div style="margin-top: 30px; height: 400px;">
                 <div style="width: 40%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
-                    <textarea class="textareaStyle" ng-model="eventTypePayloadModel"></textarea>
+                    <textarea class="textareaStyle" ng-model="eventTypePayloadModel"></textarea><br/><br/>
+                    <button class="ubxButton"  ng-click="registerEvent()">Send</button><br><br>
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle" ng-model="eventTypeResponseModel"></textarea>
                 </div>
-                <div style="display:inline-block; width: 50%; margin-top: 30px;" >
-
-                    <div class="ubxRowStyle" style="margin-top: 30px;">
-                        <div class="ubxCellStyle">name</div><div class="ubxCellStyle">Name of the business application.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">description</div><div class="ubxCellStyle">The UBX interface displays the
-                        description that you enter here.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">providerName</div><div class="ubxCellStyle">Name of the endpoint provider.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">url</div><div class="ubxCellStyle">A single global URL that UBX uses to
-                        communicate with the endpoint, for all
-                        endpoint types.</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div>
-                <button class="ubxButton"  ng-click="registerEvent()">Send</button><br><br>
-                <div class="ubxLabelStyle">Response</div>
-                <textarea class="responseboxStyle" ng-model="eventTypeResponseModel"></textarea>
             </div>
 
         </div>
@@ -243,7 +219,7 @@
     <div id="tabs-4" ng-controller="SendEvent">
         <div class="tab-content">
             <div>
-                <div class="ubxLabelStyle"><b>URL to the event type API:</b></div>
+                <div class="ubxLabelStyle"><b>URL to the event API:</b></div>
                 <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventUrlModel"/>
             </div>
 
@@ -264,34 +240,13 @@
             <div style="margin-top: 30px; height: 400px;">
                 <div style="width: 40%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
-                    <textarea class="textareaStyle"  ng-model="eventPayloadModel"></textarea>
-                </div>
-                <div style="display:inline-block; width: 50%; margin-top: 30px;" >
-
-                    <div class="ubxRowStyle" style="margin-top: 30px;">
-                        <div class="ubxCellStyle">name</div><div class="ubxCellStyle">Name of the business application.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">description</div><div class="ubxCellStyle">The UBX interface displays the
-                        description that you enter here.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">providerName</div><div class="ubxCellStyle">Name of the endpoint provider.</div>
-                    </div>
-                    <div class="ubxRowStyle">
-                        <div class="ubxCellStyle">url</div><div class="ubxCellStyle">A single global URL that UBX uses to
-                        communicate with the endpoint, for all
-                        endpoint types.</div>
-                    </div>
-
+                    <textarea class="textareaStyle"  ng-model="eventPayloadModel"></textarea><br/><br/>
+                    <button class="ubxButton" ng-click="sendEvent()">Send</button><br><br>
+                    <div class="ubxLabelStyle">Response</div>
+                    <textarea class="responseboxStyle" ng-model="eventResponseModel">{{eventResponseModel}}</textarea>
                 </div>
             </div>
 
-            <div>
-                <button class="ubxButton" ng-click="sendEvent()">Send</button><br><br>
-                <div class="ubxLabelStyle">Response</div>
-                <textarea class="responseboxStyle" ng-model="eventResponseModel">{{eventResponseModel}}</textarea>
-            </div>
 
         </div>
     </div>
@@ -317,12 +272,14 @@
     </div>
     <div id="tabs-6">
         <div class="tab-content" ng-controller="SegmentsAPI">
+            <div class="ubxRowStyle">
+                <div class="ubxCellStyle">
             <div>
                 <div class="ubxLabelStyle"><b>URL:</b></div>
                 <input name="eventURL" class="textboxStyle" type="text"  ng-model="getSegmentsUrlModel"/>
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 10px;">
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
                 <div class="ubxLabelStyle">Authorization:</div>
@@ -334,13 +291,45 @@
 
             </div>
 
-
             <div>
                 <button class="ubxButton" ng-click="getSegments()">Send</button><br><br>
                 <div class="ubxLabelStyle">Response</div>
-                <textarea class="responseboxStyle" ng-model="getSegmentsResponseModel">{{getSegmentsResponseModel}}</textarea>
+                <textarea class="textareaStyle" ng-model="getSegmentsResponseModel">{{getSegmentsResponseModel}}</textarea>
             </div>
+                    </div>
+                <div class="ubxCellStyle">
+                   <h2>Audience producer APIs</h2>
 
+                    <li id="api1" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET /segments</li>
+                    <div id="api1content" style="width: 500px; background-color: #D1D3D4">Return a list of segments (ids, names and descriptions only)</div>
+                    <br/>
+                    <li id="api2" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET /segments/{segmentId</li>
+                    <div id="api2content" style="width: 500px; background-color: #D1D3D4">Return detailed meta data about a specific segment</div>
+                    <br/>
+                    <li id="api3" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET  /segments/{segmentId}/data  </li>
+                    <div id="api3content" style="width: 500px; background-color: #D1D3D4">Export the segments data. Returns error if data is not available synchronously</div>
+                    <br/>
+                    <li id="api4" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /jobs</li>
+                    <div id="api4content" style="width: 500px; background-color: #D1D3D4">Return detailed meta data about a specific segment</div>
+                    <br/>
+                    <li id="api5" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET /jobs/{jobId}</li>
+                    <div id="api5content" style="width: 500px; background-color: #D1D3D4">Returns the status of an asynchronous segment export job</div>
+                    <br/>
+                    <li id="api6" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /jobs</li>
+                    <div id="api6content" style="width: 500px; background-color: #D1D3D4">Returns the segment data that was exported for the segment export job</div>
+
+                    <h2>Audience consumer APIs</h2>
+
+                    <li id="api7" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /segments</li>
+                    <div id="api7content" style="width: 500px; background-color: #D1D3D4">Create a new segment and return the id of the newly created segment</div>
+                    <br/>
+                    <li id="api8" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /segments/{segmentId}/data</li>
+                    <div id="api8content" style="width: 500px; background-color: #D1D3D4">Add new contacts to the segment with the specified segment id</div>
+                    <br/>
+                    <li id="api9" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">PUT  /segments/{segmentId}/data </li>
+                    <div id="api9content" style="width: 500px; background-color: #D1D3D4">Replace all contacts in the segment with the specified segment id</div>
+                </div>
+        </div>
         </div>
     </div>
     <div id="tabs-7" ng-controller="AudienceMonitor">
@@ -358,20 +347,12 @@
             </div>
 
             <div class="ubxRowStyle">
-                <div class="ubxCellStyle" style="width: 500px">
-                    <iframe id="sourceAudienceiFrame" ng-src="http://169.45.67.107/audience/producer/" style="width: 500px; height: 400px;"></iframe>
-
-                    <br>
-                    <br>
-                    <div id="btoggle1" style="font-size: 16px; cursor: pointer; cursor: hand;text-decoration: underline;">API 1</div>
-                    <div id="contentp1" style="width: 500px; background-color: #F2F2F2; padding: 10px;">API content1</div>
-                    <br/>
-                    <div id="btoggle2" style="font-size: 16px; cursor: pointer; cursor: hand;text-decoration: underline;">API 2</div>
-                    <div id="contentp2" style="width: 500px; background-color: #F2F2F2; padding: 10px;">API content2</div>
+                <div class="ubxCellStyle" style="width: 700px">
+                    <iframe id="sourceAudienceiFrame" ng-src="http://169.45.67.107/audience/producer/" style="width: 700px; height: 400px;"></iframe>
 
                 </div>
-                <div class="ubxCellStyle">
-                    <iframe id="destinationAudienceiFrame" ng-src="http://169.45.67.107/audience/consumer/" style="width: 500px; height: 400px;"></iframe>
+                <div class="ubxCellStyle" style="width: 700px">
+                    <iframe id="destinationAudienceiFrame" ng-src="http://169.45.67.107/audience/consumer/" style="width: 700px; height: 400px;"></iframe>
                 </div>
             </div>
         </div>

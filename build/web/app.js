@@ -12,20 +12,11 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
       }
       };
 
-      $scope.endpointData = [{
-          endpointURL : "http://ubxdemo.ibm.com/endpoint1",
-          endpointFileName : "ubx-events.txt",
-          id : "1"
-            },
-          {
-              endpointURL : "http://ubxdemo.ibm.com/endpoint2",
-              endpointFileName : "ubx-events1.txt",
-              id : "2"
-          },
+      $scope.endpointData = [
           {
               endpointURL : "http://169.45.67.107:5555/timedevent",
               endpointFileName : "event.txt",
-              id : "3"
+              id : "1"
           }
       ];
 
@@ -63,10 +54,18 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStor
                     $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
                     document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
                     break;
-
                 case 2:
                     $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
                     document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    break;
+                case 3:
+                    $scope.endpointPayloadModal = dataStore.sourceAudienceEndpointPayload;
+                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    break;
+                case 4:
+                    $scope.endpointPayloadModal = dataStore.destinationAudienceEndpointPayload;
+                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    break;
             }
         };
 
@@ -218,25 +217,113 @@ EndpointTabs.controller('SendEvent', ['$scope','$q','apiCore', 'dataStore',
 
     }]);
 
+EndpointTabs.controller('SegmentsAPI', ['$scope','$q','apiCore', 'dataStore',
+    function($scope, $q, apiCore, dataStore) {
+
+
+        $( "#api1content" ).hide();
+        $( "#api1" ).click(function() {
+            $( "#api1content" ).toggle( "slow" );
+        });
+
+        $( "#api2content" ).hide();
+        $( "#api2" ).click(function() {
+            $( "#api2content" ).toggle( "slow" );
+        });
+
+        $( "#api3content" ).hide();
+        $( "#api3" ).click(function() {
+            $( "#api3content" ).toggle( "slow" );
+        });
+
+        $( "#api4content" ).hide();
+        $( "#api4" ).click(function() {
+            $( "#api4content" ).toggle( "slow" );
+        });
+
+        $( "#api5content" ).hide();
+        $( "#api5" ).click(function() {
+            $( "#api5content" ).toggle( "slow" );
+        });
+
+        $( "#api6content" ).hide();
+        $( "#api6" ).click(function() {
+            $( "#api6content" ).toggle( "slow" );
+        });
+
+        $( "#api7content" ).hide();
+        $( "#api7" ).click(function() {
+            $( "#api7content" ).toggle( "slow" );
+        });
+
+        $( "#api8content" ).hide();
+        $( "#api8" ).click(function() {
+            $( "#api8content" ).toggle( "slow" );
+        });
+
+        $( "#api9content" ).hide();
+        $( "#api9" ).click(function() {
+            $( "#api9content" ).toggle( "slow" );
+        });
+
+
+
+        //initialize event values
+        $scope.getSegmentsUrlModel = dataStore.getSegmentsUrlModel;
+        $scope.getSegmentsAuthorizationModel = dataStore.endpointAuthorization;
+        $scope.getSegmentsContentTypeModel = dataStore.endpointContentType;
+
+        $scope.getSegments = function(){
+            var deferred = $q.defer();
+
+            // build config with headers
+            var config = {
+                headers: {
+                    'Authorization': $scope.getSegmentsAuthorizationModel,
+                    'Content-Type' : $scope.getSegmentsContentTypeModel
+                },
+                withCredentials: true
+            };
+
+            // submit login credentials
+            apiCore.get($scope.getSegmentsUrlModel, {}, config).then(function(response) { // SUCCESS
+                var temp;
+                try {
+                    temp = JSON.stringify(response.data);
+                    $scope.getSegmentsResponseModel = temp;
+                } catch(e){
+                    $scope.getSegmentsResponseModel = response.data;
+                }
+                deferred.resolve(response.data);
+
+            }, function(response) { // ERROR
+                // return the error code
+                var temp;
+                try {
+                    temp = JSON.stringify(response.data);
+                    $scope.getSegmentsResponseModel = temp;
+                } catch(e){
+                    $scope.getSegmentsResponseModel = response.data;
+                }
+                deferred.reject(response.status);
+            });
+            return deferred.promise;
+        };
+
+
+    }]);
 
 EndpointTabs.controller('AudienceMonitor', ['$scope','$q','apiCore', 'dataStore',
     function($scope, $q, apiCore, dataStore) {
-        $( "#contentp1" ).hide();
-        $( "#btoggle1" ).click(function() {
-            $( "#contentp1" ).toggle( "slow" );
-        });
 
-        $( "#contentp2" ).hide();
-        $( "#btoggle2" ).click(function() {
-            $( "#contentp2" ).toggle( "slow" );
-        });
-
+        $scope.sourceiFrame = "http://169.45.67.107/audience/producer/";
+        $scope.destinationiFrame = "http://169.45.67.107/audience/consumer/";
 
         $scope.refreshSourceAudienceiFrame = function(){
-            document.getElementById('sourceAudienceiFrame').src = "http://localhost/audiences/sourceAudience/";
+            document.getElementById('sourceAudienceiFrame').src = $scope.sourceiFrame;
         };
 
         $scope.refreshDestinationAudienceiFrame = function(){
-            document.getElementById('destinationAudienceiFrame').src = "http://localhost/audiences/destinationAudience/";
+            document.getElementById('destinationAudienceiFrame').src = $scope.destinationiFrame;
         };
     }]);
