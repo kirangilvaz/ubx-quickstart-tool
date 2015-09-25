@@ -154,7 +154,7 @@
                 <div style="width: 60%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
                     <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal" ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea><br/><br/>
-                    <button class="ubxButton" ng-click="sendendpointRegistration()">Send</button><br/><br/>
+                    <button class="ubxButton" ng-click="sendendpointRegistration()">PUT</button><br/><br/>
                     <div class="ubxLabelStyle">Response</div>
                     <textarea class="responseboxStyle" ng-modal="endpointResponse">{{endpointResponse}}</textarea>
                 </div>
@@ -190,7 +190,7 @@
                 <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventTypeUrlModel">
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 10px;">
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
                 <div class="ubxLabelStyle">Authorization:</div>
@@ -204,11 +204,11 @@
             </div>
 
 
-            <div style="margin-top: 30px; height: 400px;">
+            <div style="margin-top: 10px; height: 400px;">
                 <div style="width: 40%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
                     <textarea class="textareaStyle" ng-model="eventTypePayloadModel"></textarea><br/><br/>
-                    <button class="ubxButton"  ng-click="registerEvent()">Send</button><br><br>
+                    <button class="ubxButton"  ng-click="registerEvent()">POST</button><br><br>
                     <div class="ubxLabelStyle">Response</div>
                     <textarea class="responseboxStyle" ng-model="eventTypeResponseModel"></textarea>
                 </div>
@@ -223,7 +223,7 @@
                 <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventUrlModel"/>
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 10px;">
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
                 <div class="ubxLabelStyle">Authorization:</div>
@@ -241,7 +241,7 @@
                 <div style="width: 40%; display: inline-block; float: left">
                     <div class="ubxLabelStyle"><b>Payload</b></div>
                     <textarea class="textareaStyle"  ng-model="eventPayloadModel"></textarea><br/><br/>
-                    <button class="ubxButton" ng-click="sendEvent()">Send</button><br><br>
+                    <button class="ubxButton" ng-click="sendEvent()">POST</button><br><br>
                     <div class="ubxLabelStyle">Response</div>
                     <textarea class="responseboxStyle" ng-model="eventResponseModel">{{eventResponseModel}}</textarea>
                 </div>
@@ -292,7 +292,7 @@
             </div>
 
             <div>
-                <button class="ubxButton" ng-click="getSegments()">Send</button><br><br>
+                <button class="ubxButton" ng-click="getSegments()">GET</button><br><br>
                 <div class="ubxLabelStyle">Response</div>
                 <textarea class="textareaStyle" ng-model="getSegmentsResponseModel">{{getSegmentsResponseModel}}</textarea>
             </div>
