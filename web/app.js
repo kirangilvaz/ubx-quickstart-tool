@@ -7,7 +7,11 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
           var eventSource = new EventSource('streamingAPI?fileName=' + fileName);
           eventSource.onmessage=function(event)
           {
-              document.getElementById('result'+id).innerHTML+=event.data;
+              if(event.data==='`'){
+                  document.getElementById('result'+id).innerHTML+="<br/><br/>";
+              } else {
+                  document.getElementById('result'+id).innerHTML+=event.data;
+              }
           };
       }
       };
