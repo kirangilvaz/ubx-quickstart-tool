@@ -15,7 +15,7 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
       $scope.endpointData = [
           {
               endpointURL : "http://169.45.67.107:5555/timedevent",
-              endpointFileName : "event.txt",
+              endpointFileName : "/var/log/event.txt",
               id : "1"
           }
       ];
