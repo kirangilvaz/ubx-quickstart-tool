@@ -45,7 +45,7 @@ public class streamingAPI extends HttpServlet {
            BufferedInputStream reader = null; 
         try{
         
-        reader = new BufferedInputStream(new FileInputStream("/var/log/"+fileName));
+        reader = new BufferedInputStream(new FileInputStream(fileName));
 
         while (running) {
 
