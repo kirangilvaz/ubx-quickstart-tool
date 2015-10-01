@@ -1,6 +1,6 @@
 var EndpointTabs = angular.module('ubxtour', []);
-EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
-  function($scope) {
+EndpointTabs.controller('EndpointTabsCtrl', ['$scope','$rootScope',
+  function($scope, $rootScope) {
 
       function eventHandler ()  {
           this.startEventSource = function(id, fileName){
@@ -16,11 +16,22 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope',
       }
       };
 
+      $rootScope.hostName = "169.45.67.107";
       $scope.endpointData = [
           {
-              endpointURL : "http://169.45.67.107:5555/timedevent",
+              endpointURL : "http://"+$rootScope.hostName+":5555/timedevent",
               endpointFileName : "/var/log/event.txt",
               id : "1"
+          },
+          {
+              endpointURL : "http://"+$rootScope.hostName+":5556/timedevent",
+              endpointFileName : "/var/log/ubx-events.txt",
+              id : "2"
+          },
+          {
+              endpointURL : "http://"+$rootScope.hostName+":5557/timedevent",
+              endpointFileName : "/var/log/ubx-events1.txt",
+              id : "3"
           }
       ];
 
@@ -221,107 +232,109 @@ EndpointTabs.controller('SendEvent', ['$scope','$q','apiCore', 'dataStore',
 
     }]);
 
-EndpointTabs.controller('SegmentsAPI', ['$scope','$q','apiCore', 'dataStore',
-    function($scope, $q, apiCore, dataStore) {
+EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'dataStore',
+    function($scope, $rootScope, $q, apiCore, dataStore) {
 
 
-        $( "#api1content" ).hide();
-        $( "#api1" ).click(function() {
-            $( "#api1content" ).toggle( "slow" );
-        });
+        //$( "#api1content" ).hide();
+        //$( "#api1" ).click(function() {
+        //    $( "#api1content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api2content" ).hide();
+        //$( "#api2" ).click(function() {
+        //    $( "#api2content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api3content" ).hide();
+        //$( "#api3" ).click(function() {
+        //    $( "#api3content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api4content" ).hide();
+        //$( "#api4" ).click(function() {
+        //    $( "#api4content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api5content" ).hide();
+        //$( "#api5" ).click(function() {
+        //    $( "#api5content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api6content" ).hide();
+        //$( "#api6" ).click(function() {
+        //    $( "#api6content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api7content" ).hide();
+        //$( "#api7" ).click(function() {
+        //    $( "#api7content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api8content" ).hide();
+        //$( "#api8" ).click(function() {
+        //    $( "#api8content" ).toggle( "slow" );
+        //});
+        //
+        //$( "#api9content" ).hide();
+        //$( "#api9" ).click(function() {
+        //    $( "#api9content" ).toggle( "slow" );
+        //});
 
-        $( "#api2content" ).hide();
-        $( "#api2" ).click(function() {
-            $( "#api2content" ).toggle( "slow" );
-        });
 
-        $( "#api3content" ).hide();
-        $( "#api3" ).click(function() {
-            $( "#api3content" ).toggle( "slow" );
-        });
-
-        $( "#api4content" ).hide();
-        $( "#api4" ).click(function() {
-            $( "#api4content" ).toggle( "slow" );
-        });
-
-        $( "#api5content" ).hide();
-        $( "#api5" ).click(function() {
-            $( "#api5content" ).toggle( "slow" );
-        });
-
-        $( "#api6content" ).hide();
-        $( "#api6" ).click(function() {
-            $( "#api6content" ).toggle( "slow" );
-        });
-
-        $( "#api7content" ).hide();
-        $( "#api7" ).click(function() {
-            $( "#api7content" ).toggle( "slow" );
-        });
-
-        $( "#api8content" ).hide();
-        $( "#api8" ).click(function() {
-            $( "#api8content" ).toggle( "slow" );
-        });
-
-        $( "#api9content" ).hide();
-        $( "#api9" ).click(function() {
-            $( "#api9content" ).toggle( "slow" );
-        });
-
-
-
-        //initialize event values
         $scope.getSegmentsUrlModel = dataStore.getSegmentsUrlModel;
         $scope.getSegmentsAuthorizationModel = dataStore.endpointAuthorization;
         $scope.getSegmentsContentTypeModel = dataStore.endpointContentType;
+        $scope.legacyHttpGet = function() {
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    $scope.getSegmentsResponseModel = xmlhttp.responseText;
+                    $scope.$applyAsync();
+                    return;
+                }
+            }
+            xmlhttp.open("GET", $scope.getSegmentsUrlModel, true );
+            xmlhttp.setRequestHeader("Content-Type",$scope.getSegmentsContentTypeModel);
+            xmlhttp.setRequestHeader("Authorization",$scope.getSegmentsAuthorizationModel);
+            xmlhttp.send();
+        };
 
-        $scope.getSegments = function(){
-            var deferred = $q.defer();
-
-            // build config with headers
-            var config = {
-                headers: {
-                    'Authorization': $scope.getSegmentsAuthorizationModel,
-                    'Content-Type' : $scope.getSegmentsContentTypeModel
-                },
-                withCredentials: true
+        $scope.updateSegmentsUrlValue = function(apiValue){
+            switch(apiValue){
+                case 'api1':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
+                    break;
+                case 'api2':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1';
+                    break;
+                case 'api3':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
+                    break;
             };
-
-            // submit login credentials
-            apiCore.get($scope.getSegmentsUrlModel, {}, config).then(function(response) { // SUCCESS
-                var temp;
-                try {
-                    temp = JSON.stringify(response.data);
-                    $scope.getSegmentsResponseModel = temp;
-                } catch(e){
-                    $scope.getSegmentsResponseModel = response.data;
-                }
-                deferred.resolve(response.data);
-
-            }, function(response) { // ERROR
-                // return the error code
-                var temp;
-                try {
-                    temp = JSON.stringify(response.data);
-                    $scope.getSegmentsResponseModel = temp;
-                } catch(e){
-                    $scope.getSegmentsResponseModel = response.data;
-                }
-                deferred.reject(response.status);
-            });
-            return deferred.promise;
         };
 
 
     }]);
 
-EndpointTabs.controller('AudienceMonitor', ['$scope','$q','apiCore', 'dataStore',
-    function($scope, $q, apiCore, dataStore) {
+EndpointTabs.controller('AudienceMonitor', ['$scope','$rootScope','$q','apiCore', 'dataStore','$sce',
+    function($scope, $rootScope, $q, apiCore, dataStore, $sce) {
 
-        $scope.sourceiFrame = "http://169.45.67.107/audience/producer/";
-        $scope.destinationiFrame = "http://169.45.67.107/audience/consumer/";
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        }
+
+        $scope.sourceiFrame = "http://"+$rootScope.hostName+"/audience/producer/";
+        $scope.destinationiFrame = "http://"+$rootScope.hostName+"/audience/consumer/";
 
         $scope.refreshSourceAudienceiFrame = function(){
             document.getElementById('sourceAudienceiFrame').src = $scope.sourceiFrame;

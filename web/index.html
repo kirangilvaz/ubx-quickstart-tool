@@ -252,21 +252,20 @@
     </div>
     <div id="tabs-5">
         <p>
-        <div ng-controller="EndpointTabsCtrl" style="background-color: #f4f4f">
-
+        <div class="ubxLabelStyle" style="margin-top: 15px;">Select the destination URL for your endpoint and search for your event</div>
+        <div id="vtabs" ng-controller="EndpointTabsCtrl" style="background-color: #f4f4f;">
             <ul>
                 <li ng-repeat="eData in endpointData">
                     <a href="#vtabs-{{eData.id}}">{{eData.endpointURL}}</a>
                 </li>
             </ul>
-            <div ng-repeat="eData in endpointData" style="word-wrap: break-word">
+            <div ng-repeat="eData in endpointData" style="word-wrap: break-word;">
                 <div id="vtabs-{{eData.id}}">
-                    <h2>{{eData.endpointURL}}</h2>
-
-                    <p id="result{{eData.id}}"></p>
+                    <p id="result{{eData.id}}" style="margin-left: 280px"></p>
                 </div>
             </div>
         </div>
+
         </p>
 
     </div>
@@ -292,42 +291,42 @@
             </div>
 
             <div>
-                <button class="ubxButton" ng-click="getSegments()">GET</button><br><br>
+                <button class="ubxButton" ng-click="legacyHttpGet()">GET</button><br><br>
                 <div class="ubxLabelStyle">Response</div>
-                <textarea class="textareaStyle" ng-model="getSegmentsResponseModel">{{getSegmentsResponseModel}}</textarea>
+                <textarea class="textareaStyle" ng-model="getSegmentsResponseModel"></textarea>
             </div>
                     </div>
                 <div class="ubxCellStyle">
                    <h2>Audience producer APIs</h2>
 
-                    <li id="api1" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET /segments</li>
-                    <div id="api1content" style="width: 500px; background-color: #D1D3D4">Return a list of segments (ids, names and descriptions only)</div>
+                    <li id="api1" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api1')">GET /segments</li>
+                    <div id="api1content" style="margin-left: 12px">Return a list of segments (ids, names and descriptions only)</div>
                     <br/>
-                    <li id="api2" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET /segments/{segmentId</li>
-                    <div id="api2content" style="width: 500px; background-color: #D1D3D4">Return detailed meta data about a specific segment</div>
+                    <li id="api2" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api2')">GET /segments/{segmentId</li>
+                    <div id="api2content" style="margin-left: 12px">Return detailed meta data about a specific segment</div>
                     <br/>
-                    <li id="api3" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET  /segments/{segmentId}/data  </li>
-                    <div id="api3content" style="width: 500px; background-color: #D1D3D4">Export the segments data. Returns error if data is not available synchronously</div>
+                    <li id="api3" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api3')">GET  /segments/{segmentId}/data  </li>
+                    <div id="api3content" style="margin-left: 12px">Export the segments data. Returns error if data is not available synchronously</div>
                     <br/>
                     <li id="api4" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /jobs</li>
-                    <div id="api4content" style="width: 500px; background-color: #D1D3D4">Return detailed meta data about a specific segment</div>
+                    <div id="api4content" style="margin-left: 12px">Return detailed meta data about a specific segment</div>
                     <br/>
                     <li id="api5" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">GET /jobs/{jobId}</li>
-                    <div id="api5content" style="width: 500px; background-color: #D1D3D4">Returns the status of an asynchronous segment export job</div>
+                    <div id="api5content" style="margin-left: 12px">Returns the status of an asynchronous segment export job</div>
                     <br/>
                     <li id="api6" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /jobs</li>
-                    <div id="api6content" style="width: 500px; background-color: #D1D3D4">Returns the segment data that was exported for the segment export job</div>
+                    <div id="api6content" style="margin-left: 12px">Returns the segment data that was exported for the segment export job</div>
 
                     <h2>Audience consumer APIs</h2>
 
                     <li id="api7" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /segments</li>
-                    <div id="api7content" style="width: 500px; background-color: #D1D3D4">Create a new segment and return the id of the newly created segment</div>
+                    <div id="api7content" style="margin-left: 12px">Create a new segment and return the id of the newly created segment</div>
                     <br/>
                     <li id="api8" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">POST /segments/{segmentId}/data</li>
-                    <div id="api8content" style="width: 500px; background-color: #D1D3D4">Add new contacts to the segment with the specified segment id</div>
+                    <div id="api8content" style="margin-left: 12px">Add new contacts to the segment with the specified segment id</div>
                     <br/>
                     <li id="api9" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold">PUT  /segments/{segmentId}/data </li>
-                    <div id="api9content" style="width: 500px; background-color: #D1D3D4">Replace all contacts in the segment with the specified segment id</div>
+                    <div id="api9content" style="margin-left: 12px">Replace all contacts in the segment with the specified segment id</div>
                 </div>
         </div>
         </div>
@@ -348,11 +347,11 @@
 
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle" style="width: 700px">
-                    <iframe id="sourceAudienceiFrame" ng-src="http://169.45.67.107/audience/producer/" style="width: 700px; height: 400px;"></iframe>
+                    <iframe id="sourceAudienceiFrame" ng-src="{{trustSrc(sourceiFrame)}}" style="width: 700px; height: 400px;"></iframe>
 
                 </div>
                 <div class="ubxCellStyle" style="width: 700px">
-                    <iframe id="destinationAudienceiFrame" ng-src="http://169.45.67.107/audience/consumer/" style="width: 700px; height: 400px;"></iframe>
+                    <iframe id="destinationAudienceiFrame" ng-src="{{trustSrc(destinationiFrame)}}" style="width: 700px; height: 400px;"></iframe>
                 </div>
             </div>
         </div>

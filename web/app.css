@@ -98,9 +98,10 @@ body {
     border: 1px solid rgb(174, 174, 174);
     border-radius: 0px;
     margin-top: 4px;
-    height: calc(6.5em + 19px);
+    /*height: calc(6.5em + 19px);*/
+    height: 100%;
     display: block;
-    text-align: right;
+    text-align: left;
     border-radius: 3px;
     margin-bottom: 2px;
     margin-right: 3px;
@@ -131,9 +132,8 @@ body {
 }
 
 .ubxLabelStyle{
-    /*color: #5a5a5a;*/
-    color: black;
-    font-size: 100%;
+    color: #5a5a5a;
+    font-size: 110%;
     margin-bottom: 15px;
 }
 
