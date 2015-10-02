@@ -156,7 +156,7 @@
                     <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal" ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea><br/><br/>
                     <button class="ubxButton" ng-click="sendendpointRegistration()">PUT</button><br/><br/>
                     <div class="ubxLabelStyle">Response</div>
-                    <textarea class="responseboxStyle" ng-modal="endpointResponse">{{endpointResponse}}</textarea>
+                    <textarea id="endpointResponseId" class="responseboxStyle">{{$root.endpointResponse}}</textarea>
                 </div>
                 <div style="display:inline-block; width: 35%; margin-top: 10px;padding-left: 30px;" >
                     <p>
@@ -275,6 +275,7 @@
             <div class="ubxRowStyle">
                 <div class="ubxCellStyle">
             <div>
+                <div class="ubxLabelStyle"><b>Select an Audience publisher API on the right</b></div>
                 <div class="ubxLabelStyle"><b>URL:</b></div>
                 <input name="eventURL" class="textboxStyle" type="text"  ng-model="getSegmentsUrlModel"/>
             </div>

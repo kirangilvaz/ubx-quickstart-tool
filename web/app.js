@@ -104,7 +104,7 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStor
         };
 
 
-
+        $scope.endpointResponse = "";
         $scope.sendendpointRegistration = function(){
                 var deferred = $q.defer();
 
@@ -116,15 +116,16 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStor
                     },
                     withCredentials: true
                 };
-
                 // submit login credentials
-                apiCore.put($scope.endpointUrl, $scope.endpointPayloadModal, config).then(function(response) { // SUCCESS
-                    $scope.endpointResponse = 'Status:'+response.status+'. '+response.data;
+            $scope.endpointResponse = apiCore.put($scope.endpointUrl, $scope.endpointPayloadModal, config).then(function(response) { // SUCCESS
+                $scope.endpointResponse = 'Status:'+response.status+'. \nResponse:'+response.data;
+                document.getElementById('endpointResponseId').value = $scope.endpointResponse;
                     deferred.resolve(response.data);
 
                 }, function(response) { // ERROR
                     // return the error code
-                    $scope.endpointResponse = 'Status:'+response.status+'. '+response.data.message;
+                $scope.endpointResponse = 'Status:'+response.status+'. \nResponse:'+response.data.message;
+                document.getElementById('endpointResponseId').value = $scope.endpointResponse;
                     deferred.reject(response.status);
                 });
                 return deferred.promise;
