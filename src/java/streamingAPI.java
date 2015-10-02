@@ -70,6 +70,7 @@ public class streamingAPI extends HttpServlet {
         reader.close();
         e.printStackTrace();
         } finally {
+            reader.close();
             out.close();
         }
 
