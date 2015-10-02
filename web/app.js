@@ -17,21 +17,32 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope','$rootScope',
       };
 
       $rootScope.hostName = "169.45.67.107";
+      $scope.eventConsumerFileSystemUrl = "http://"+$rootScope.hostName+":8088/eventconsumers";
       $scope.endpointData = [
           {
-              endpointURL : "http://"+$rootScope.hostName+":5555/timedevent",
-              endpointFileName : "/var/log/event.txt",
+              endpointURL : "http://"+$rootScope.hostName+":5551/demoeventconsumer",
+              endpointFileName : "/wamp/www/eventconsumers/consumer1.txt",
               id : "1"
           },
           {
-              endpointURL : "http://"+$rootScope.hostName+":5556/timedevent",
-              endpointFileName : "/var/log/ubx-events.txt",
+              endpointURL : "http://"+$rootScope.hostName+":5552/demoeventconsumer",
+              endpointFileName : "/wamp/www/eventconsumers/consumer2.txt",
               id : "2"
           },
           {
-              endpointURL : "http://"+$rootScope.hostName+":5557/timedevent",
-              endpointFileName : "/var/log/ubx-events1.txt",
+              endpointURL : "http://"+$rootScope.hostName+":5553/demoeventconsumer",
+              endpointFileName : "/wamp/www/eventconsumers/consumer3.txt",
               id : "3"
+          },
+          {
+              endpointURL : "http://"+$rootScope.hostName+":5554/demoeventconsumer",
+              endpointFileName : "/wamp/www/eventconsumers/consumer4.txt",
+              id : "4"
+          },
+          {
+              endpointURL : "http://"+$rootScope.hostName+":5555/demoeventconsumer",
+              endpointFileName : "/wamp/www/eventconsumers/consumer5.txt",
+              id : "5"
           }
       ];
 
@@ -108,12 +119,12 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStor
 
                 // submit login credentials
                 apiCore.put($scope.endpointUrl, $scope.endpointPayloadModal, config).then(function(response) { // SUCCESS
-                    $scope.endpointResponse = response.data;
+                    $scope.endpointResponse = 'Status:'+response.status+'. '+response.data;
                     deferred.resolve(response.data);
 
                 }, function(response) { // ERROR
                     // return the error code
-                    $scope.endpointResponse = response.status+': '+response.data.message;
+                    $scope.endpointResponse = 'Status:'+response.status+'. '+response.data.message;
                     deferred.reject(response.status);
                 });
                 return deferred.promise;
@@ -131,19 +142,6 @@ EndpointTabs.controller('RegisterEvent', ['$scope','$q','apiCore', 'dataStore',
         $scope.eventTypeContentTypeModel = dataStore.endpointContentType;
         $scope.eventTypePayloadModel = dataStore.eventTypePayload;
 
-        //$scope.eventPayloadChanged = function(){
-        //    switch(type){
-        //        case 1:
-        //            $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
-        //            document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
-        //            break;
-        //
-        //        case 2:
-        //            $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
-        //            document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
-        //    }
-        //};
-
         $scope.registerEvent = function(){
             var deferred = $q.defer();
 
@@ -158,12 +156,12 @@ EndpointTabs.controller('RegisterEvent', ['$scope','$q','apiCore', 'dataStore',
 
             // submit login credentials
             apiCore.post($scope.eventTypeUrlModel, $scope.eventTypePayloadModel, config).then(function(response) { // SUCCESS
-                $scope.eventTypeResponseModel = response.data;
+                $scope.eventTypeResponseModel = 'Status:'+response.status+'. '+response.data;
                 deferred.resolve(response.data);
 
             }, function(response) { // ERROR
                 // return the error code
-                $scope.eventTypeResponseModel = response.status+': '+response.data.message;
+                $scope.eventTypeResponseModel = 'Status:'+response.status+'. '+response.data.message;
                 deferred.reject(response.status);
             });
             return deferred.promise;
@@ -218,12 +216,12 @@ EndpointTabs.controller('SendEvent', ['$scope','$q','apiCore', 'dataStore',
 
             // submit login credentials
             apiCore.post($scope.eventUrlModel, $scope.eventPayloadModel, config).then(function(response) { // SUCCESS
-                $scope.eventResponseModel = response.data;
+                $scope.eventResponseModel = 'Status:'+response.status+'. '+response.data;
                 deferred.resolve(response.data);
 
             }, function(response) { // ERROR
                 // return the error code
-                $scope.eventResponseModel = response.status+': '+response.data.message;
+                $scope.eventResponseModel = 'Status:'+response.status+'. '+response.data.message;
                 deferred.reject(response.status);
             });
             return deferred.promise;
@@ -285,6 +283,8 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
         $scope.getSegmentsUrlModel = dataStore.getSegmentsUrlModel;
         $scope.getSegmentsAuthorizationModel = dataStore.endpointAuthorization;
         $scope.getSegmentsContentTypeModel = dataStore.endpointContentType;
+        $scope.getSegmentsRequestTypeModel = 'GET';
+        $scope.getSegmentsPayloadModal = "{\"segmentId\": 1, \"jobType\": \"ExportSegmentData\"}";
         $scope.legacyHttpGet = function() {
             if (window.XMLHttpRequest)
             {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -298,27 +298,53 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
             {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200)
                 {
-                    $scope.getSegmentsResponseModel = xmlhttp.responseText;
+                    $scope.getSegmentsResponseModel = 'Status:'+xmlhttp.status+'. '+xmlhttp.responseText;
+                    $scope.$applyAsync();
+                    return;
+                } else if (xmlhttp.readyState==4 && xmlhttp.status!=200)
+                {
+                    $scope.getSegmentsResponseModel = 'Status:'+xmlhttp.status+'. '+xmlhttp.responseText;
                     $scope.$applyAsync();
                     return;
                 }
             }
-            xmlhttp.open("GET", $scope.getSegmentsUrlModel, true );
+            xmlhttp.open($scope.getSegmentsRequestTypeModel, $scope.getSegmentsUrlModel, true );
             xmlhttp.setRequestHeader("Content-Type",$scope.getSegmentsContentTypeModel);
             xmlhttp.setRequestHeader("Authorization",$scope.getSegmentsAuthorizationModel);
-            xmlhttp.send();
+            if($scope.getSegmentsRequestTypeModel === 'GET'){
+                xmlhttp.send();
+            } else if($scope.getSegmentsRequestTypeModel === 'POST'){
+                xmlhttp.send($scope.getSegmentsPayloadModal);
+            }
+
         };
 
         $scope.updateSegmentsUrlValue = function(apiValue){
             switch(apiValue){
                 case 'api1':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
+                    $scope.getSegmentsRequestTypeModel = 'GET';
                     break;
                 case 'api2':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1';
+                    $scope.getSegmentsRequestTypeModel = 'GET';
                     break;
                 case 'api3':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
+                    $scope.getSegmentsRequestTypeModel = 'GET';
+                    break;
+                case 'api4':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs';
+                    $scope.getSegmentsRequestTypeModel = 'POST';
+                    $scope.getSegmentsPayloadModal = "{\"segmentId\": 1, \"jobType\": \"ExportSegmentData\"}";
+                    break;
+                case 'api5':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs/{jobId}';
+                    $scope.getSegmentsRequestTypeModel = 'GET';
+                    break;
+                case 'api6':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs/{jobId}/data/{jobDataId}';
+                    $scope.getSegmentsRequestTypeModel = 'GET';
                     break;
             };
         };
@@ -329,12 +355,12 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
 EndpointTabs.controller('AudienceMonitor', ['$scope','$rootScope','$q','apiCore', 'dataStore','$sce',
     function($scope, $rootScope, $q, apiCore, dataStore, $sce) {
 
-        $scope.trustSrc = function(src) {
+        $rootScope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
         }
 
-        $scope.sourceiFrame = "http://"+$rootScope.hostName+"/audience/producer/";
-        $scope.destinationiFrame = "http://"+$rootScope.hostName+"/audience/consumer/";
+        $scope.sourceiFrame = "http://"+$rootScope.hostName+":8088/audience/producer/";
+        $scope.destinationiFrame = "http://"+$rootScope.hostName+":8088/audience/consumer/";
 
         $scope.refreshSourceAudienceiFrame = function(){
             document.getElementById('sourceAudienceiFrame').src = $scope.sourceiFrame;
