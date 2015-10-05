@@ -281,7 +281,7 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
         //});
 
 
-        $scope.getSegmentsUrlModel = dataStore.getSegmentsUrlModel;
+        $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
         $scope.getSegmentsAuthorizationModel = dataStore.endpointAuthorization;
         $scope.getSegmentsContentTypeModel = dataStore.endpointContentType;
         $scope.getSegmentsRequestTypeModel = 'GET';
