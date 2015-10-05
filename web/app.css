@@ -149,9 +149,10 @@ body {
 
 
 .endpoint-radio-option {
-    display: inline-block;
     margin-right: 30px;
     margin-bottom: 10px;
+    display: inline-block;
+    width: 200px;
 }
 
 .textboxStyle {
@@ -245,7 +246,7 @@ label {
 }
 /* hide input */
 input.radio:empty {
-    margin-left: -1025px;
+    margin-left: -1500px;
 }
 
 input.radio:checked ~ label:before {
