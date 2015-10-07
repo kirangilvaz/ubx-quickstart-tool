@@ -27,13 +27,11 @@
         .ui-tabs-vertical {
             width: 80em;
         }
-
         .ui-tabs-vertical .ui-tabs-nav {
             padding: .2em .1em .2em .2em;
             float: left;
             width: 12em;
         }
-
         .ui-tabs-vertical .ui-tabs-nav li {
             clear: left;
             width: 100%;
@@ -41,17 +39,14 @@
             border-right-width: 0 !important;
             margin: 0 -1px .2em 0;
         }
-
         .ui-tabs-vertical .ui-tabs-nav li a {
             display: block;
         }
-
         .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
             padding-bottom: 0;
             padding-right: .1em;
             border-right-width: 1px;
         }
-
         .ui-tabs-vertical .ui-tabs-panel {
         }
     </style>
@@ -267,21 +262,13 @@
     </div>
     <div id="tabs-5" ng-controller="EndpointTabsCtrl">
         <p>
-        <div class="ubxLabelStyle" style="margin-top: 15px;">Select the destination URL for your endpoint and search for your event</div>
-        <div class="ubxLabelStyle" style="margin-top: 15px;">Or <a ng-href={{trustSrc(eventConsumerFileSystemUrl)}} target="_blank">Click here</a> to access the event consumer logs directly. </div>
-        <div id="vtabs" style="background-color: #f4f4f; min-height: 300px">
-            <ul>
-                <li ng-repeat="eData in endpointData">
-                    <a href="#vtabs-{{eData.id}}">{{eData.endpointURL}}</a>
-                </li>
-            </ul>
-            <div ng-repeat="eData in endpointData" style="word-wrap: break-word;">
-                <div id="vtabs-{{eData.id}}" style="min-height: 300px">
-                    <p id="result{{eData.id}}" style="margin-left: 325px"></p>
-                </div>
-            </div>
-        </div>
 
+        <div class="ubxLabelStyle" style="margin-top: 15px;">Select the destination URL for your endpoint and search for your event </div>
+        <div class="ubxLabelStyle" style="margin-top: 15px;">Or <a ng-href={{trustSrc(eventConsumerFileSystemUrl)}} target="_blank">Click here</a> to access the event consumer logs directly.</div>
+        <span><select ng-model="endpointConsumerUrl" ng-options="eData.endpointURL as eData.endpointURL for eData in endpointData" ng-change="updateEndpointConsumerUrl()">
+        </select></span>
+        <span><button ng-click="updateEndpointConsumerUrl()">Reload events</button></span><br/><br/>
+        <div id="eventConsumerResponse" style="background-color: #f4f4f; min-height: 300px"></div>
         </p>
 
     </div>

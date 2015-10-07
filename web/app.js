@@ -1,22 +1,22 @@
 var EndpointTabs = angular.module('ubxtour', []);
-EndpointTabs.controller('EndpointTabsCtrl', ['$scope','$rootScope',
-  function($scope, $rootScope) {
+EndpointTabs.controller('EndpointTabsCtrl', ['$scope','$rootScope','apiCore','dataStore',
+  function($scope, $rootScope, apiCore, dataStore) {
 
-      function eventHandler ()  {
-          this.startEventSource = function(id, fileName){
-          var eventSource = new EventSource('streamingAPI?fileName=' + fileName);
-          eventSource.onmessage=function(event)
-          {
-              if(event.data==='`'){
-                  document.getElementById('result'+id).innerHTML+="<br/><br/>";
-              } else {
-                  document.getElementById('result'+id).innerHTML+=event.data;
-              }
-          };
-      }
-      };
+      //function eventHandler ()  {
+      //    this.startEventSource = function(id, fileName){
+      //    var eventSource = new EventSource('streamingAPI?fileName=' + fileName);
+      //    eventSource.onmessage=function(event)
+      //    {
+      //        if(event.data==='`'){
+      //            document.getElementById('result'+id).innerHTML+="<br/><br/>";
+      //        } else {
+      //            document.getElementById('result'+id).innerHTML+=event.data;
+      //        }
+      //    };
+      //}
+      //};
 
-      $rootScope.hostName = "169.45.67.107";
+      $rootScope.hostName = dataStore.hostName;
       $scope.eventConsumerFileSystemUrl = "http://"+$rootScope.hostName+":8088/eventconsumers";
       $scope.endpointData = [
           {
@@ -47,15 +47,57 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope','$rootScope',
       ];
 
 
-      var eventHandlerObject = null;
-      var initializeEventHandlers = function(){
+      //var eventHandlerObject = null;
+      //var initializeEventHandlers = function(){
+      //    for(var i = 0; i<$scope.endpointData.length; i++){
+      //          eventHandlerObject = new eventHandler();
+      //        eventHandlerObject.startEventSource($scope.endpointData[i].id, $scope.endpointData[i].endpointFileName);
+      //    }
+      //}
+      ////initializeEventHandlers();
+      $scope.endpointConsumerResponse = "";
+      $scope.endpointConsumerUrl = $scope.endpointData[0].endpointURL;
+      var getEndpointFileName = function(endpointConsumerUrl){
+          endpointConsumerUrl = endpointConsumerUrl.trim();
           for(var i = 0; i<$scope.endpointData.length; i++){
-                eventHandlerObject = new eventHandler();
-              eventHandlerObject.startEventSource($scope.endpointData[i].id, $scope.endpointData[i].endpointFileName);
+              if($scope.endpointData[i].endpointURL === endpointConsumerUrl){
+                  return $scope.endpointData[i].endpointFileName;
+              }
+          }
+          return null;
+      };
+      $scope.updateEndpointConsumerUrl = function(){
+            var endpointFileName = getEndpointFileName($scope.endpointConsumerUrl);
+          if(endpointFileName!==null){
+              if (window.XMLHttpRequest)
+              {// code for IE7+, Firefox, Chrome, Opera, Safari
+                  xmlhttp=new XMLHttpRequest();
+              }
+              else
+              {// code for IE6, IE5
+                  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+              }
+              xmlhttp.onreadystatechange=function()
+              {
+                  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                  {
+                      $scope.endpointConsumerResponse = xmlhttp.responseText;
+                      document.getElementById('eventConsumerResponse').innerHTML = $scope.endpointConsumerResponse;
+                      $scope.$applyAsync();
+                      return;
+                  } else if (xmlhttp.readyState==4 && xmlhttp.status!=200)
+                  {
+                      $scope.endpointConsumerResponse = 'Status:'+xmlhttp.status+'. '+xmlhttp.responseText;
+                      document.getElementById('eventConsumerResponse').innerHTML = $scope.endpointConsumerResponse;
+                      $scope.$applyAsync();
+                      return;
+                  }
+              }
+              xmlhttp.open("GET", 'getConsumerLog?fileName=' + endpointFileName, true );
+              xmlhttp.send();
           }
       }
-      initializeEventHandlers();
-
+      $scope.updateEndpointConsumerUrl();
 
 
 }]);
