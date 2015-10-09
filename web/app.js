@@ -356,7 +356,7 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
             xmlhttp.setRequestHeader("Authorization",$scope.getSegmentsAuthorizationModel);
             if($scope.getSegmentsRequestTypeModel === 'GET'){
                 xmlhttp.send();
-            } else if($scope.getSegmentsRequestTypeModel === 'POST'){
+            } else if($scope.getSegmentsRequestTypeModel === 'POST' || $scope.getSegmentsRequestTypeModel === 'PUT'){
                 xmlhttp.send($scope.getSegmentsPayloadModal);
             }
 
@@ -367,27 +367,51 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
                 case 'api1':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
                     $scope.getSegmentsRequestTypeModel = 'GET';
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
                     break;
                 case 'api2':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1';
                     $scope.getSegmentsRequestTypeModel = 'GET';
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
                     break;
                 case 'api3':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
                     $scope.getSegmentsRequestTypeModel = 'GET';
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
                     break;
                 case 'api4':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs';
                     $scope.getSegmentsRequestTypeModel = 'POST';
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
                     $scope.getSegmentsPayloadModal = "{\"segmentId\": 1, \"jobType\": \"ExportSegmentData\"}";
                     break;
                 case 'api5':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs/{jobId}';
                     $scope.getSegmentsRequestTypeModel = 'GET';
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
                     break;
                 case 'api6':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs/{jobId}/data/{jobDataId}';
                     $scope.getSegmentsRequestTypeModel = 'GET';
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    break;
+                case 'api7':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
+                    $scope.getSegmentsRequestTypeModel = 'POST';
+                    $scope.getSegmentsPayloadModal = "{\"name\": \"TestAudience\"}";
+                    $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    break;
+                case 'api8':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
+                    $scope.getSegmentsRequestTypeModel = 'POST';
+                    $scope.getSegmentsPayloadModal = "Email,FirstName,LastName,Sex\nhulk@ibm.com,Bruce,Banner,M";
+                    $scope.getSegmentsContentTypeModel = "text/csv; charset=utf-8";
+                    break;
+                case 'api9':
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
+                    $scope.getSegmentsRequestTypeModel = 'PUT';
+                    $scope.getSegmentsPayloadModal = "Email,FirstName,LastName,Sex\nfury@ibm.com,Nick,Fury,M";
+                    $scope.getSegmentsContentTypeModel = "text/csv; charset=utf-8";
                     break;
             };
         };

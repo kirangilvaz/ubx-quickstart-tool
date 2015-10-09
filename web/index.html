@@ -295,8 +295,8 @@
             </div>
 
             <div>
-                <div class="ubxLabelStyle" ng-show="getSegmentsRequestTypeModel==='POST'">Payload</div>
-                <textarea class="responseboxStyle" ng-model="getSegmentsPayloadModal" ng-show="getSegmentsRequestTypeModel==='POST'"></textarea><br/><br/>
+                <div class="ubxLabelStyle" ng-show="getSegmentsRequestTypeModel==='POST' || getSegmentsRequestTypeModel === 'PUT'">Payload</div>
+                <textarea class="responseboxStyle" ng-model="getSegmentsPayloadModal" ng-show="getSegmentsRequestTypeModel==='POST' || getSegmentsRequestTypeModel === 'PUT'"></textarea><br/><br/>
                 <button class="ubxButton" ng-click="legacyHttpGet()">{{getSegmentsRequestTypeModel}}</button><br/><br/>
                 <div class="ubxLabelStyle">Response</div>
                 <textarea class="responseboxStyle" ng-model="getSegmentsResponseModel" style="height: 300px"></textarea>
@@ -325,13 +325,13 @@
 
                     <h2>Audience consumer APIs</h2>
 
-                    <li id="api7" style="cursor: hand; cursor: pointer; font-weight: bold">POST /segments</li>
+                    <li id="api7" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api7')">POST /segments</li>
                     <div id="api7content" style="margin-left: 12px">Create a new segment and return the id of the newly created segment</div>
                     <br/>
-                    <li id="api8" style="cursor: hand; cursor: pointer; font-weight: bold">POST /segments/{segmentId}/data</li>
+                    <li id="api8" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api8')">POST /segments/{segmentId}/data</li>
                     <div id="api8content" style="margin-left: 12px">Add new contacts to the segment with the specified segment id</div>
                     <br/>
-                    <li id="api9" style="cursor: hand; cursor: pointer; font-weight: bold">PUT  /segments/{segmentId}/data </li>
+                    <li id="api9" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api9')">PUT  /segments/{segmentId}/data </li>
                     <div id="api9content" style="margin-left: 12px">Replace all contacts in the segment with the specified segment id</div>
                 </div>
         </div>
