@@ -103,8 +103,8 @@ EndpointTabs.controller('EndpointTabsCtrl', ['$scope','$rootScope','apiCore','da
 }]);
 
 
-EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStore',
-    function($scope, $q, apiCore, dataStore) {
+EndpointTabs.controller('RegisterEndpoints', ['$scope','$rootScope','$q','apiCore', 'dataStore',
+    function($scope, $rootScope, $q, apiCore, dataStore) {
 
         //initialize source endpoint values
         $scope.endpointUrl = dataStore.endpointUrl;
@@ -115,24 +115,27 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$q','apiCore', 'dataStor
         $scope.endpointContentType = dataStore.endpointContentType;
 
         $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
-
         $scope.endpointTypeChanged = function(type){
             switch(type){
                 case 1:
                     $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
                     document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    $scope.$broadcast("endpointTypeChanged","1");
                     break;
                 case 2:
                     $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
                     document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    $scope.$broadcast("endpointTypeChanged","2");
                     break;
                 case 3:
                     $scope.endpointPayloadModal = dataStore.sourceAudienceEndpointPayload;
                     document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    $scope.$broadcast("endpointTypeChanged","3");
                     break;
                 case 4:
                     $scope.endpointPayloadModal = dataStore.destinationAudienceEndpointPayload;
                     document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
+                    $scope.$broadcast("endpointTypeChanged","4");
                     break;
             }
         };
@@ -341,7 +344,14 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
             {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200)
                 {
-                    $scope.getSegmentsResponseModel = 'Status:'+xmlhttp.status+'. '+xmlhttp.responseText;
+                    try {
+                        var temp = xmlhttp.responseText;
+                        temp = JSON.parse(temp);
+                        temp = JSON.stringify(temp, undefined, 5);
+                        $scope.getSegmentsResponseModel = temp;
+                    }catch(e){
+                        $scope.getSegmentsResponseModel = xmlhttp.responseText;
+                    }
                     $scope.$applyAsync();
                     return;
                 } else if (xmlhttp.readyState==4 && xmlhttp.status!=200)
@@ -368,50 +378,59 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
                     $scope.getSegmentsRequestTypeModel = 'GET';
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api2':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1';
                     $scope.getSegmentsRequestTypeModel = 'GET';
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api3':
-                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
+                    $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data?totalBatchCount=1&currentBatchNumber=1';
                     $scope.getSegmentsRequestTypeModel = 'GET';
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api4':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs';
                     $scope.getSegmentsRequestTypeModel = 'POST';
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
                     $scope.getSegmentsPayloadModal = "{\"segmentId\": 1, \"jobType\": \"ExportSegmentData\"}";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api5':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs/{jobId}';
                     $scope.getSegmentsRequestTypeModel = 'GET';
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api6':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/jobs/{jobId}/data/{jobDataId}';
                     $scope.getSegmentsRequestTypeModel = 'GET';
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api7':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments';
                     $scope.getSegmentsRequestTypeModel = 'POST';
-                    $scope.getSegmentsPayloadModal = "{\"name\": \"TestAudience\"}";
+                    $scope.getSegmentsPayloadModal = "{ \r\n    \"name\":\"MyNewSegment\",\r\n    \"description\": \"My New Segment Description\",\r\n    \"category\" : \"strategic\"  \r\n }";
                     $scope.getSegmentsContentTypeModel = "application/JSON; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api8':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
                     $scope.getSegmentsRequestTypeModel = 'POST';
                     $scope.getSegmentsPayloadModal = "Email,FirstName,LastName,Sex\nhulk@ibm.com,Bruce,Banner,M";
                     $scope.getSegmentsContentTypeModel = "text/csv; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
                 case 'api9':
                     $scope.getSegmentsUrlModel = 'http://'+$rootScope.hostName+':8096/SegmentEndpoint/v1/segments/1/data';
                     $scope.getSegmentsRequestTypeModel = 'PUT';
                     $scope.getSegmentsPayloadModal = "Email,FirstName,LastName,Sex\nfury@ibm.com,Nick,Fury,M";
                     $scope.getSegmentsContentTypeModel = "text/csv; charset=utf-8";
+                    $scope.getSegmentsResponseModel = "";
                     break;
             };
         };
@@ -436,4 +455,61 @@ EndpointTabs.controller('AudienceMonitor', ['$scope','$rootScope','$q','apiCore'
         $scope.refreshDestinationAudienceiFrame = function(){
             document.getElementById('destinationAudienceiFrame').src = $scope.destinationiFrame;
         };
+    }]);
+
+EndpointTabs.controller('EndpointRegistrationDetails', ['$scope','$rootScope','$q','apiCore', 'dataStore','$sce',
+    function($scope, $rootScope, $q, apiCore, dataStore, $sce) {
+        var endpointDetails = "<ol><li>The bearer authentication key is generated by clicking on the 'Register new endpoint' button on the UBX user interface.</li>" +
+        "<li>Name: This will be the display name for your endpoint</li>" +
+        "<li>Description: Description of the endpoint</li>" +
+        "<li>Provider name: This name must match the value of a provider that is registered with UBX. </li>" +
+        "<li>Endpoint Types: We currently support 'event' and 'segment' endpoint types. These endpoint types must define source and destination attributes.</li>" +
+        "<li>Marketing Database: This is used to define marketing database attributes for your endpoint.</li>" +
+        "<li>If the endpoint requires an authenticated connection, the endpoint provider must also call the v1/endpointattributes API to provide the necessary connection and login information.</li>" +
+        "<li>Upon successful registration, the endpoint appears on the UBX user interface.</li>" +
+        "</ol>";
+        $scope.endpointDetails = $sce.trustAsHtml(endpointDetails);
+        var urls = "";
+        $scope.$on("endpointTypeChanged", function(event, type) {
+            switch(type){
+                case "1":
+                    urls = "";
+                    break;
+                case "2":
+                    urls = "<li>URL: This is the URL for the event consumer. We have event consumers setup on the following URLs. Using one of these URLs will allow you to see the events you send on the 'Verify events' tab.<br/>" +
+                    "<ul>" +
+                    "<li>http://"+$rootScope.hostName+":5551/demoeventconsumer</li>" +
+                    "<li>http://"+$rootScope.hostName+":5552/demoeventconsumer</li>" +
+                    "<li>http://"+$rootScope.hostName+":5553/demoeventconsumer</li>" +
+                    "<li>http://"+$rootScope.hostName+":5554/demoeventconsumer</li>" +
+                    "<li>http://"+$rootScope.hostName+":5555/demoeventconsumer</li>" +
+                    "</ul>" +
+                    "</li>";
+                    break;
+                case "3":
+                    urls = "<li>URL: This is the base URL for the audience publisher API. You will need to implement all the audience publisher APIs here. " +
+                    "For the purpose of this demo we have setup audience publisher APIs for you at http://"+$rootScope.hostName+":8096/SegmentEndpoint<br/> You can see them in action on the Audience API tab.</li>";
+                    break;
+                case "4":
+                    urls = "<li>URL: This is the base URL for the audience consumer API. You will need to implement all the audience consumer APIs here. " +
+                    "For the purpose of this demo we have setup audience consumer APIs for you at http://"+$rootScope.hostName+":8096/SegmentEndpoint<br/> You can see them in action on the Audience API tab.</li>";
+                    break;
+                default :
+                    urls = "";
+            };
+            endpointDetails = "<ol><li>The bearer authentication key is generated by clicking on the 'Register new endpoint' button on the UBX user interface.</li>" +
+            "<li>Name: This will be the display name for your endpoint</li>" +
+            "<li>Description: Description of the endpoint</li>" +
+            "<li>Provider name: This name must match the value of a provider that is registered with UBX. </li>" +
+            "<li>Endpoint Types: We currently support 'event' and 'segment' endpoint types. These endpoint types must define source and destination attributes.</li>" +
+            urls +
+            "<li>Marketing Database: This is used to define marketing database attributes for your endpoint.</li>" +
+            "<li>If the endpoint requires an authenticated connection, the endpoint provider must also call the v1/endpointattributes API to provide the necessary connection and login information.</li>" +
+            "<li>Upon successful registration, the endpoint appears on the UBX user interface.</li>" +
+            "</ol>";
+            $scope.endpointDetails = $sce.trustAsHtml(endpointDetails);
+        });
+
+
+
     }]);

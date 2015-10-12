@@ -53,7 +53,7 @@
 </head>
 <body>
 
-<div id="main-header">IBM - UBX Quick Start Tool</div>
+<div id="main-header"><span>IBM - UBX Quick Start Tool</span><span><a href="ubxsession4.pdf"><img src="images/help.png" style="float: right; width: 28px; height: 28px;"></a></span></div>
 
 <div id="tabs">
     <ul>
@@ -109,7 +109,7 @@
                 <li>Use the UBX UI to export an audience to your destination endpoint.</li>
                 <li>View the audience data at the destination endpoint.</li>
             </ol>
-
+            You can access the UBX user interface by clicking <a href="https://ubx-pilot.ibmmarketingcloud.com/" target="_blank">here.</a>
             </p>
             <div style="align: center">
                 <img src="images/UBX-Overview.png"
@@ -170,22 +170,10 @@
                 </div>
                 <div style="display:inline-block; width: 35%; margin-top: 10px;padding-left: 30px;" >
                     <p>
-                    <h5>PUT /v1/endpoint</h5>
-                    Register an endpoint with UBX.<br/><br/>
-
                     <h5>Endpoint registration overview</h5>
-                    A UBX user must initiate each endpoint registration from the UBX user interface. The registration requires a series of actions by the UBX user and the endpoint provider.<br/><br/>
-
-                    1. In UBX, a user requests an endpoint authentication key. UBX generates a unique key.<br/><br/>
-
-                    2. The user contacts the endpoint provider to submit the authentication key. The provider determines how the user submits the key.<br/><br/>
-
-                    3. The endpoint provider calls the UBX v1/endpoint API. The authentication key must be in the header of the API
-                    call as the authorization bearer. If the endpoint requires an authenticated connection, the endpoint provider must also call the v1/endpointattributes API to provide the necessary connection and login information.<br/><br/>
-
-                    4. UBX recognizes the user-provided authentication key as authorization for the endpoint to share data between applications on behalf of the UBX user account.<br/><br/>
-
-                    5. Upon successful registration, the endpoint appears as an option in the interface that UBX displays to the user account.<br/><br/>
+                    <div ng-controller="EndpointRegistrationDetails">
+                        <div ng-bind-html="endpointDetails"></div>
+                        </div>
                     </p>
                 </div>
             </div>
@@ -296,7 +284,7 @@
 
             <div>
                 <div class="ubxLabelStyle" ng-show="getSegmentsRequestTypeModel==='POST' || getSegmentsRequestTypeModel === 'PUT'">Payload</div>
-                <textarea class="responseboxStyle" ng-model="getSegmentsPayloadModal" ng-show="getSegmentsRequestTypeModel==='POST' || getSegmentsRequestTypeModel === 'PUT'"></textarea><br/><br/>
+                <textarea class="responseboxStyle" style="height: 100px;" ng-model="getSegmentsPayloadModal" ng-show="getSegmentsRequestTypeModel==='POST' || getSegmentsRequestTypeModel === 'PUT'"></textarea><br/><br/>
                 <button class="ubxButton" ng-click="legacyHttpGet()">{{getSegmentsRequestTypeModel}}</button><br/><br/>
                 <div class="ubxLabelStyle">Response</div>
                 <textarea class="responseboxStyle" ng-model="getSegmentsResponseModel" style="height: 300px"></textarea>
@@ -308,14 +296,14 @@
                     <li id="api1" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api1')">GET /segments</li>
                     <div id="api1content" style="margin-left: 12px">Return a list of segments (ids, names and descriptions only)</div>
                     <br/>
-                    <li id="api2" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api2')">GET /segments/{segmentId</li>
+                    <li id="api2" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api2')">GET /segments/{segmentId}</li>
                     <div id="api2content" style="margin-left: 12px">Return detailed meta data about a specific segment</div>
                     <br/>
                     <li id="api3" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api3')">GET  /segments/{segmentId}/data  </li>
                     <div id="api3content" style="margin-left: 12px">Export the segments data. Returns error if data is not available synchronously</div>
                     <br/>
                     <li id="api4" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api4')">POST /jobs</li>
-                    <div id="api4content" style="margin-left: 12px">Return detailed meta data about a specific segment</div>
+                    <div id="api4content" style="margin-left: 12px">Request the creation of a job to export the specified segment’s data</div>
                     <br/>
                     <li id="api5" style="cursor: hand; cursor: pointer; text-decoration: underline; font-weight: bold" ng-click="updateSegmentsUrlValue('api5')">GET /jobs/{jobId}</li>
                     <div id="api5content" style="margin-left: 12px">Returns the status of an asynchronous segment export job</div>
