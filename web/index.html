@@ -124,7 +124,8 @@
             <div>
                 <span class="ubxLabelStyle"><b>Select endpoint type:</b></span>&nbsp;&nbsp;&nbsp;
                 <span class="endpoint-radio-option">
-                    <input type="radio" name="radio" id="radio1" class="radio" checked ng-click="endpointTypeChanged(1)"/>
+                    <input type="radio" name="radio" id="radio1" class="radio" checked
+                           ng-click="endpointTypeChanged(1)"/>
                     <label for="radio1">Event publisher</label>
                 </span>
 
@@ -144,39 +145,40 @@
                 </span>
             </div>
 
-            <div style="margin-top: 10px;">
+            <span style="margin-top: 10px;float: left">
                 <div class="ubxLabelStyle"><b>URL to the endpoint API:</b></div>
-                <input name="endpointUrl" class="textboxStyle" type="text" ng-modal="endpointUrl" value="https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint" ng-disabled="true" disabled="disabled">
-            </div>
+                <input name="endpointUrl" class="textboxStyle" type="text" ng-modal="endpointUrl"
+                       value="https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint" ng-disabled="true"
+                       disabled="disabled">
 
-            <div style="margin-top: 10px;">
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
-                <div class="ubxLabelStyle">Authorization: This key is obtained from the UBX UI by clicking on "Register an endpoint"</div>
-                <input class="textboxStyle" type="text" ng-model="endpointAuthorizationModal" value="{{endpointAuthorization}}" ng-change="endpointAuthorizationChanged()"/>
-
-                <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type: Content-Type must be set to application/JSON; charset=utf-8</div>
-                <input class="textboxStyle" type="text" ng-model="endpointContentType" value="{{endpointContentType}}" ng-disabled="true"/>
-
-            </div>
-
-            <div style="margin-top: 10px; height: 400px;">
-                <div style="display: inline-block; float: left">
-                    <div class="ubxLabelStyle"><b>Payload</b></div>
-                    <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal" ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea><br/><br/>
-                    <button class="ubxButton" ng-click="sendendpointRegistration()">PUT</button><br/><br/>
-                    <div class="ubxLabelStyle">Response</div>
-                    <textarea id="endpointResponseId" class="responseboxStyle">{{$root.endpointResponse}}</textarea>
+                <div class="ubxLabelStyle">Authorization: This key is obtained from the UBX UI by clicking on "Register
+                    an endpoint"
                 </div>
-                <div style="display:inline-block; width: 35%; margin-top: 10px;padding-left: 30px;" >
-                    <p>
-                    <h5>Endpoint registration overview</h5>
-                    <div ng-controller="EndpointRegistrationDetails">
-                        <div ng-bind-html="endpointDetails"></div>
-                        </div>
-                    </p>
+                <input class="textboxStyle" type="text" ng-model="endpointAuthorizationModal"
+                       value="{{endpointAuthorization}}" ng-change="endpointAuthorizationChanged()"/>
+
+                <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type: Content-Type must be set to
+                    application/JSON; charset=utf-8
                 </div>
-            </div>
+                <input class="textboxStyle" type="text" ng-model="endpointContentType" value="{{endpointContentType}}"
+                       ng-disabled="true"/>
+                <div class="ubxLabelStyle"><b>Payload</b></div>
+                <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal"
+                  ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea><br/><br/>
+                <button class="ubxButton" ng-click="sendendpointRegistration()">PUT</button><br/><br/>
+                <div class="ubxLabelStyle">Response</div>
+                <textarea id="endpointResponseId" class="responseboxStyle">{{$root.endpointResponse}}</textarea>
+                </span>
+            <span style="display:inline-block; width: 35%; margin-left: 30px;padding-left: 30px;">
+                <p>
+                <h5>Endpoint registration overview</h5>
+                <div ng-controller="EndpointRegistrationDetails">
+                    <div ng-bind-html="endpointDetails"></div>
+                </div>
+                </p>
+            </span>
 
 
         </div>

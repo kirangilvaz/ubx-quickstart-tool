@@ -332,6 +332,10 @@ EndpointTabs.controller('SegmentsAPI', ['$scope','$rootScope','$q','apiCore', 'd
         $scope.getSegmentsRequestTypeModel = 'GET';
         $scope.getSegmentsPayloadModal = "{\"segmentId\": 1, \"jobType\": \"ExportSegmentData\"}";
         $scope.legacyHttpGet = function() {
+            if($scope.getSegmentsAuthorizationModel==='Bearer 90cced80-XXXX-XXXX-XXXX-86168313f1c9'){
+                alert("Please use a valid endpoint auth key");
+                return;
+            }
             if (window.XMLHttpRequest)
             {// code for IE7+, Firefox, Chrome, Opera, Safari
                 xmlhttp=new XMLHttpRequest();
