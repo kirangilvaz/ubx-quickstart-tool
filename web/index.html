@@ -148,8 +148,7 @@
             <span style="margin-top: 10px;float: left">
                 <div class="ubxLabelStyle"><b>URL to the endpoint API:</b></div>
                 <input name="endpointUrl" class="textboxStyle" type="text" ng-modal="endpointUrl"
-                       value="https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint" ng-disabled="true"
-                       disabled="disabled">
+                       value="https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint">
 
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
@@ -187,7 +186,7 @@
         <div class="tab-content">
             <div>
                 <div class="ubxLabelStyle"><b>URL to the event type API:</b></div>
-                <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventTypeUrlModel" ng-disabled="true">
+                <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventTypeUrlModel">
             </div>
 
             <div style="margin-top: 10px;">
@@ -199,7 +198,7 @@
 
                 <div class="ubxLabelStyle" style="margin-top: 15px;">Content-Type:</div>
                 <div class="ubxLabelStyle">Content-Type must be set to application/JSON; charset=utf-8</div>
-                <input class="textboxStyle" type="text"  ng-model="eventTypeContentTypeModel"/>
+                <input class="textboxStyle" type="text"  ng-model="eventTypeContentTypeModel" ng-disabled="true"/>
 
             </div>
 
@@ -220,7 +219,7 @@
         <div class="tab-content">
             <div>
                 <div class="ubxLabelStyle"><b>URL to the event API:</b></div>
-                <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventUrlModel" ng-disabled="true"/>
+                <input name="eventURL" class="textboxStyle" type="text"  ng-model="eventUrlModel"/>
             </div>
 
             <div style="margin-top: 10px;">
