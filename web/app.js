@@ -107,8 +107,8 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$rootScope','$q','apiCor
     function($scope, $rootScope, $q, apiCore, dataStore) {
 
         //initialize source endpoint values
-        $scope.endpointUrl = dataStore.endpointUrl;
-
+        $scope.endpoint = {};
+        $scope.endpointUrlModal = dataStore.endpointUrl;
         $scope.endpointAuthorization = dataStore.endpointAuthorization;
         $scope.endpointAuthorizationModal = dataStore.endpointAuthorization;
 
@@ -119,22 +119,18 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$rootScope','$q','apiCor
             switch(type){
                 case 1:
                     $scope.endpointPayloadModal = dataStore.sourceEndpointPayload;
-                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
                     $scope.$broadcast("endpointTypeChanged","1");
                     break;
                 case 2:
                     $scope.endpointPayloadModal = dataStore.destinationEndpointPayload;
-                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
                     $scope.$broadcast("endpointTypeChanged","2");
                     break;
                 case 3:
                     $scope.endpointPayloadModal = dataStore.sourceAudienceEndpointPayload;
-                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
                     $scope.$broadcast("endpointTypeChanged","3");
                     break;
                 case 4:
                     $scope.endpointPayloadModal = dataStore.destinationAudienceEndpointPayload;
-                    document.getElementById('endpointPayload').value = $scope.endpointPayloadModal;
                     $scope.$broadcast("endpointTypeChanged","4");
                     break;
             }
@@ -144,10 +140,9 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$rootScope','$q','apiCor
             $scope.endpointAuthorization = $scope.endpointAuthorizationModal;
         };
 
-        $scope.endpointPayloadChanged = function(){
-            $scope.endpointPayloadModal = document.getElementById('endpointPayload').value;
+        $scope.endpointUrlModalChanged = function(){
+            $scope.endpointUrl = $scope.endpointUrlModal;
         };
-
 
         $scope.endpointResponse = "";
         $scope.sendendpointRegistration = function(){
@@ -162,7 +157,7 @@ EndpointTabs.controller('RegisterEndpoints', ['$scope','$rootScope','$q','apiCor
                     withCredentials: true
                 };
                 // submit login credentials
-            $scope.endpointResponse = apiCore.put($scope.endpointUrl, $scope.endpointPayloadModal, config).then(function(response) { // SUCCESS
+            $scope.endpointResponse = apiCore.put($scope.endpointUrlModal, $scope.endpointPayloadModal, config).then(function(response) { // SUCCESS
                 $scope.endpointResponse = 'Status:'+response.status+'. \nResponse:'+response.data;
                 document.getElementById('endpointResponseId').value = $scope.endpointResponse;
                     deferred.resolve(response.data);

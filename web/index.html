@@ -147,8 +147,7 @@
 
             <span style="margin-top: 10px;float: left">
                 <div class="ubxLabelStyle"><b>URL to the endpoint API:</b></div>
-                <input name="endpointUrl" class="textboxStyle" type="text" ng-modal="endpointUrl"
-                       value="https://api-pilot.ubx.ibmmarketingcloud.com/v1/endpoint">
+                <input name="endpointUrl" class="textboxStyle" type="text"  ng-model="endpointUrlModal">
 
                 <div class="ubxLabelStyle"><b>Headers</b></div>
 
@@ -164,8 +163,8 @@
                 <input class="textboxStyle" type="text" ng-model="endpointContentType" value="{{endpointContentType}}"
                        ng-disabled="true"/>
                 <div class="ubxLabelStyle"><b>Payload</b></div>
-                <textarea id="endpointPayload" class="textareaStyle" ng-modal="endpointPayloadModal"
-                  ng-keyup="endpointPayloadChanged(this)">{{endpointPayloadModal}}</textarea><br/><br/>
+                <textarea id="endpointPayload" class="textareaStyle" ng-model="endpointPayloadModal"
+                  ng-keyup="endpointPayloadChanged(this)"></textarea><br/><br/>
                 <button class="ubxButton" ng-click="sendendpointRegistration()">PUT</button><br/><br/>
                 <div class="ubxLabelStyle">Response</div>
                 <textarea id="endpointResponseId" class="responseboxStyle">{{$root.endpointResponse}}</textarea>
